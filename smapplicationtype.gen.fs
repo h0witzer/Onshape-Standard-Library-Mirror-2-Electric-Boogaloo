@@ -5,14 +5,14 @@ FeatureScript ✨; /* Automatically generated version */
 
 /* Automatically generated file -- DO NOT EDIT */
 
-/** @internal */
-export enum AnnotationAttachmentLocation
+/**
+ * @internal.
+ */
+export enum SMApplicationType
 {
-    TOP_MIDDLE,
-    BOTTOM_MIDDLE,
-    OPPOSITE_LEADER_EDGE,
-    LEFT_MIDDLE,
-    RIGHT_MIDDLE
+    SHEET_METAL,
+    FLEXIBLE_PCB,
+    NONE
 }
 
 

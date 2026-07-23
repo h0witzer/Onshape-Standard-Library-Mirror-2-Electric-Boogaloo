@@ -279,7 +279,7 @@ export const revolve = defineFeature(function(context is Context, id is Id, defi
             definition.startBound = RevolveBoundingType.BLIND;
             definition.startBoundAngle = 0 * radian;
         }
-        else if (definition.endBound == RevolveBoundingType.BLIND && definition.symmetric)
+        else if (isSymmetric(definition))
         {
             definition.endBoundAngle = definition.endBoundAngle / 2;
             definition.startBound = RevolveBoundingType.BLIND;
@@ -403,14 +403,20 @@ export const revolve = defineFeature(function(context is Context, id is Id, defi
             fullRevolve : true, endBound : RevolveBoundingType.BLIND, symmetric : false, hasStartBound : false, endBoundHasOffset : false, startBoundHasOffset : false, startOppositeDirection : false });
 
 
-function hasFirstBlindDirection(definition is map)
+function hasFirstBlindDirection(definition is map) returns boolean
 {
     return !definition.fullRevolve && definition.endBound == RevolveBoundingType.BLIND;
 }
 
-function revolveHasStartBound(definition is map)
+function isSymmetric(definition is map) returns boolean
 {
-    return !definition.fullRevolve && !(definition.endBound == RevolveBoundingType.BLIND && definition.symmetric) && definition.hasStartBound;
+    return definition.endBound == RevolveBoundingType.BLIND && definition.symmetric;
+}
+
+
+function revolveHasStartBound(definition is map) returns boolean
+{
+    return !definition.fullRevolve && !isSymmetric(definition) && definition.hasStartBound;
 }
 
 // We have a double blind (i.e. no up to bounds) if:
@@ -419,7 +425,7 @@ function revolveHasStartBound(definition is map)
 //      - it's symmetric, or
 //      - it doesn't have a start bound, or
 //      - the start bound is blind.
-function isDoubleBlind(definition is map)
+function isDoubleBlind(definition is map) returns boolean
 {
     return definition.fullRevolve || (definition.endBound == RevolveBoundingType.BLIND && (definition.symmetric || !definition.hasStartBound || definition.startBound == RevolveBoundingType.BLIND));
 }
@@ -732,7 +738,8 @@ function applyThickenToCreatedSurfaces(context is Context, id is Id, definition 
     else
     {
         const isRevolveAngleFullCircle = tolerantEquals(definition.endBoundAngle, 0 * degree) || tolerantEquals(360 * degree, definition.endBoundAngle);
-        fullRevolveWasPerformed = definition.fullRevolve || isRevolveAngleFullCircle;
+        const isSymmetricFullCircle = isSymmetric(definition) && tolerantEquals(180 * degree, definition.endBoundAngle);
+        fullRevolveWasPerformed = definition.fullRevolve || isRevolveAngleFullCircle || isSymmetricFullCircle;
     }
 
     const surfaceBodies = qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SHEET);

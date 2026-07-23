@@ -36,6 +36,7 @@ export import(path : "onshape/std/edgetopology.gen.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/context.fs", version : "✨");
 import(path : "onshape/std/mathUtils.fs", version : "✨");
+export import(path : "onshape/std/smapplicationtype.gen.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 import(path : "onshape/std/curveGeometry.fs", version : "✨");
@@ -133,6 +134,7 @@ export predicate canBeQuery(value)
  * @value PARTS_ATTACHED_TO          : Used in [qPartsAttachedTo]
  * @value SM_FLAT_FILTER             : Used in [qSheetMetalFlatFilter]
  * @value SM_FORM_FILTER             : Used in [qSheetMetalFormFilter]
+ * @value SM_APPLICATION_TYPE_FILTER : Used in [qSMApplicationTypeFilter]
  * @value SKETCH_OBJECT_FILTER       : Used in [qSketchFilter]
  * @value EDGE_TOPOLOGY_FILTER       : Used in [qEdgeTopologyFilter]
  * @value COINCIDES_WITH_PLANE       : Used in [qCoincidesWithPlane]
@@ -173,6 +175,7 @@ export enum QueryType
     SM_FLAT_FILTER,
     SM_FORM_FILTER,
     SM_DEFINITION_ENTITY_FILTER,
+    SM_APPLICATION_TYPE_FILTER,
     //Boolean
     UNION,
     INTERSECTION,
@@ -314,7 +317,9 @@ export enum EntityType
  */
 export enum AdjacencyType
 {
+    annotation { "Name" : "Vertex" }
     VERTEX,
+    annotation { "Name" : "Edge" }
     EDGE
 }
 
@@ -1483,6 +1488,20 @@ export function qCorrespondingInFlat(entitiesInFolded is Query) returns Query
 export function qSMDefinitionEntityFilter(queryToFilter is Query, entityType is EntityType) returns Query
 {
     return { queryType : QueryType.SM_DEFINITION_ENTITY_FILTER, "entityType" : entityType, "subquery" : queryToFilter } as Query;
+}
+
+/**
+ * A query for entities in `queryToFilter` which belong to a sheet metal model of the given [SMApplicationType].
+ *
+ * Can be used in a filter on a query parameter to only allow certain selections:
+ * ```
+ * annotation { "Name" : "PCB parts", "Filter" : EntityType.BODY && SMApplicationType.FLEXIBLE_PCB }
+ * definition.pcbPart is Query;
+ * ```
+ */
+export function qSMApplicationTypeFilter(queryToFilter is Query, smApplicationType is SMApplicationType) returns Query
+{
+    return { queryType : QueryType.SM_APPLICATION_TYPE_FILTER, "smApplicationType" : smApplicationType, "subquery" : queryToFilter } as Query;
 }
 
 /**

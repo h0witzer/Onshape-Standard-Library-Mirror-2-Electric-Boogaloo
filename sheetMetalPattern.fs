@@ -120,7 +120,8 @@ export const sheetMetalGeometryPattern = defineSheetMetalFeature(function(contex
         const smUpdateId = id + "smUpdate";
         callSubfeatureAndProcessStatus(topLevelId, updateSheetMetalGeometry, context, smUpdateId, {
                     "entities" : updateMap.modifiedEntities,
-                    "deletedAttributes" : updateMap.deletedAttributes
+                    "deletedAttributes" : updateMap.deletedAttributes,
+                    "companionBodyPattern" : definition.companionBodyPatternForSm
                 });
 
         /* If any of the patterned hole tool bodies remain public after the updateSheetMetalGeometry, it is because

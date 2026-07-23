@@ -372,7 +372,8 @@ export const sheetMetalStart = defineSheetMetalFeature(function(context is Conte
       "secondDirectionOffsetOppositeDirection" : false,
       "symmetric" : false,
       "flipDirectionUp" : false,
-      "bendCalculationType" : SMBendCalculationType.K_FACTOR
+      "bendCalculationType" : SMBendCalculationType.K_FACTOR,
+      "smApplicationType" : SMApplicationType.SHEET_METAL
     });
 
 function verifyNoMeshSheetMetalStart(context is Context, definition is map)
@@ -594,7 +595,8 @@ export function getSheetMetalModelAttributeArgsFromDialogParams(context is Conte
         "defaultSquareReliefWidth" : definition.defaultSquareReliefWidth,
         "defaultBendReliefDepthScale" : definition.defaultBendReliefDepthScale,
         "defaultBendReliefScale" : definition.defaultBendReliefScale,
-        "bendCalculationType" : definition.bendCalculationType
+        "bendCalculationType" : definition.bendCalculationType,
+        "smApplicationType" : definition.smApplicationType
     };
 }
 

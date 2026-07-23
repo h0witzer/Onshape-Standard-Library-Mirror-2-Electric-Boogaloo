@@ -21,7 +21,7 @@ export const sheetMetalEnd = defineSheetMetalFeature(function(context is Context
     precondition
     {
         annotation { "Name" : "Sheet metal parts",
-                     "Filter" : EntityType.BODY && ActiveSheetMetal.YES && ModifiableEntityOnly.YES }
+                     "Filter" : EntityType.BODY && ActiveSheetMetal.YES && SMApplicationType.SHEET_METAL && ModifiableEntityOnly.YES }
         definition.sheetMetalParts is Query;
     }
     {

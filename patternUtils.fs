@@ -574,6 +574,10 @@ function sheetMetalAwareGeometryPattern(context is Context, id is Id, definition
         definition.topLevelId = id;
         try
         {
+            // In case of body pattern the companion patern call is above, for feature-selection pattern companionBodyPattern id is passed in
+            // Using a separate field to pass into sheetMetalGeometryPattern as to avoid unnecessary processing in sm opPattern calls
+            definition.companionBodyPatternForSm = (definition.companionBodyPattern == undefined) ? id + "opPattern" : definition.companionBodyPattern;
+            definition.companionBodyPattern = undefined;
             sheetMetalGeometryPattern(context, id + "smPattern", definition);
         }
         catch (e)

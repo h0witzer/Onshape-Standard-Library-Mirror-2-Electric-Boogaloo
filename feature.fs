@@ -813,7 +813,7 @@ export function verifyNoSheetMetalFlatQuery(context is Context, query is Query,
 function verifyNoMeshInQuery(context is Context, query is Query, parameterName is string)
 {
     var meshEntities = qMeshGeometryFilter(query, MeshGeometry.YES);
-    if (evaluateQuery(context, meshEntities) != [])
+    if (!isQueryEmpty(context, meshEntities))
     {
         throw regenError(ErrorStringEnum.MESH_NOT_SUPPORTED, [parameterName], meshEntities);
     }

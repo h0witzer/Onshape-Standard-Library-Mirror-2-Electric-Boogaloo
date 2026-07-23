@@ -521,11 +521,51 @@ export const POSITIVE_COUNT_BOUNDS =
 } as IntegerBoundSpec;
 
 /**
+ * An `IntegerBoundSpec` for an integer greater than or equal to zero, defaulting to 2.
+ */
+export const NONNEGATIVE_ZERO_INCLUSIVE_COUNT_BOUNDS =
+{
+    (unitless) : [0, 2, 1e5]
+} as IntegerBoundSpec;
+
+/**
+ * An `IntegerBoundSpec` for an integer greater than or equal to zero, defaulting to 0.
+ */
+export const NONNEGATIVE_ZERO_DEFAULT_COUNT_BOUNDS =
+{
+    (unitless) : [0, 0, 1e5]
+} as IntegerBoundSpec;
+
+/**
+ * An `IntegerBoundSpec` for a positive or negative integer, defaulting to 0.
+ */
+export const ZERO_DEFAULT_INTEGER_BOUNDS =
+{
+    (unitless) : [-1e5, 0, 1e5]
+} as IntegerBoundSpec;
+
+/**
  * A `RealBoundSpec` for a number greater than or equal to zero, defaulting to 1.
  */
 export const POSITIVE_REAL_BOUNDS =
 {
     (unitless) : [0, 1, 1e5]
+} as RealBoundSpec;
+
+/**
+ * A `RealBoundSpec` for a number greater than or equal to zero, defaulting to 0.
+ */
+export const NONNEGATIVE_ZERO_DEFAULT_REAL_BOUNDS =
+{
+    (unitless) : [0, 0, 1e5]
+} as RealBoundSpec;
+
+/**
+ * A `RealBoundSpec` for a positive or negative number, defaulting to 0.
+ */
+export const ZERO_DEFAULT_REAL_BOUNDS =
+{
+    (unitless) : [-1e5, 0, 1e5]
 } as RealBoundSpec;
 
 /**

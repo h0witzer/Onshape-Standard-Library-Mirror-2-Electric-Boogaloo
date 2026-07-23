@@ -74,7 +74,7 @@ export const splitPart = defineFeature(function(context is Context, id is Id, de
             definition.faceTargets is Query;
 
             annotation { "Name" : "Entities to split with",
-                        "Filter" : (EntityType.EDGE && SketchObject.YES && ConstructionObject.NO) || //Sketch edge
+                        "Filter" : (EntityType.EDGE && ConstructionObject.NO) ||
                             (EntityType.BODY && (BodyType.SHEET || BodyType.WIRE) && ModifiableEntityOnly.NO && SketchObject.NO) || //Sheet Body (surface) or Wire Body (curve)
                             EntityType.FACE || //Face or Construction Plane
                             BodyType.MATE_CONNECTOR
