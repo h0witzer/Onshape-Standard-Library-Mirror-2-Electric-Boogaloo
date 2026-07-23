@@ -15,7 +15,6 @@ export import(path : "onshape/std/surfacetype.gen.fs", version : "✨");
 
 // Imports used internally
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/edgeconvexitytype.gen.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/path.fs", version : "✨");
@@ -23,7 +22,6 @@ import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalCornerBreakAttributeBased.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
 import(path : "onshape/std/offsetSurface.fs", version : "✨");

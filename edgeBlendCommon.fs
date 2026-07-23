@@ -4,8 +4,6 @@ FeatureScript ✨; /* Automatically generated version */
 // Copyright (c) 2013-Present PTC Inc.
 
 import(path : "onshape/std/blendcontroltype.gen.fs", version : "✨");
-import(path : "onshape/std/chamfermethod.gen.fs", version : "✨");
-import(path : "onshape/std/chamfertype.gen.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/edgeconvexitytype.gen.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");

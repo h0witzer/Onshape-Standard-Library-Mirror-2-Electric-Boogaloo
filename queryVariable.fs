@@ -369,6 +369,9 @@ export const queryVariable = defineFeature(function(context is Context, id is Id
         definition.showSelection is boolean;
     }
     {
+        if (definition.name == '' && isAtVersionOrLater(context, FeatureScriptVersionNumber.V2995_REMOVE_NAME_WORKAROUND))
+            setFeatureComputedParameter(context, id, { "name" : "name", "value" : "?" });
+
         if (definition.addAdditionalQueries)
         {
             for (var i = 0; i < size(definition.additionalQueries); i += 1)

@@ -56,7 +56,6 @@ import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/sheetMetalBuiltIns.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/matrix.fs", version : "✨");
 

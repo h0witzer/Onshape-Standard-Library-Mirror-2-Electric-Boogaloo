@@ -2,7 +2,6 @@ FeatureScript ✨; /* Automatically generated version */
 import(path : "onshape/std/context.fs", version : "✨");
 import(path : "onshape/std/defaultFeatures.fs", version : "✨");
 
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 
 /** @internal */

@@ -10,7 +10,6 @@ FeatureScript ✨; /* Automatically generated version */
 
 import(path : "onshape/std/boolean.fs", version : "✨");
 import(path : "onshape/std/boundingtype.gen.fs", version : "✨");
-import(path : "onshape/std/box.fs", version : "✨");
 import(path : "onshape/std/clashtype.gen.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
@@ -21,7 +20,6 @@ import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/sketch.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/tool.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 
 /**

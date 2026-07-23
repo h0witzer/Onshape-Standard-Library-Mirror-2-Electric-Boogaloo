@@ -44,7 +44,10 @@ annotation { "Feature Type Name" : "Decal",
 export const decal = defineFeature(function(context is Context, id is Id, definition is map)
     precondition
     {
-        annotation { "Name" : "Image" }
+        annotation {
+            "Library Definition" : "68b0a4bf00245a9b49b6e428",
+            "Name" : "Image"
+        }
         definition.image is ImageData;
 
         annotation { "Name" : "Face",

@@ -11,8 +11,6 @@ import(path : "onshape/std/formedUtils.fs", version : "✨");
 import(path : "onshape/std/registerSheetMetalBooleanTools.fs", version : "✨");
 import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
-import(path : "onshape/std/transform.fs", version : "✨");
-import(path : "onshape/std/vector.fs", version : "✨");
 
 /**
  * @internal

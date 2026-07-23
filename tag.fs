@@ -17,8 +17,6 @@ import(path : "onshape/std/frameAttributes.fs", version : "✨");
 import(path : "onshape/std/frameUtils.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
-import(path : "onshape/std/units.fs", version : "✨");
-import(path : "onshape/std/vector.fs", version : "✨");
 
 /**
  * Defines the kind of entity being tagged in the feature.

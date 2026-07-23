@@ -14,9 +14,6 @@ import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
-import(path : "onshape/std/curveGeometry.fs", version : "✨");
-import(path : "onshape/std/coordSystem.fs", version : "✨");
 
 // ATTENTION DEVELOPERS:
 // If you version a fix to functionality used in section view

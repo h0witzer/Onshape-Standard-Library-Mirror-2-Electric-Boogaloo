@@ -13,13 +13,11 @@ import(path : "onshape/std/debug.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/manipulator.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
 import(path : "onshape/std/curveGeometry.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
-import(path : "onshape/std/defaultFeatures.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/tabReferences.fs", version : "✨");
 
@@ -364,6 +362,9 @@ export const assignVariable = defineFeature(function(context is Context, id is I
         definition.description is string;
     }
     {
+        if (definition.name == '' && isAtVersionOrLater(context, FeatureScriptVersionNumber.V2995_REMOVE_NAME_WORKAROUND))
+            setFeatureComputedParameter(context, id, { "name" : "name", "value" : "?" });
+
         if (!isAtVersionOrLater(context, FeatureScriptVersionNumber.V1846_BEND_LINE_ATTACHED))
         {
             verifyVariableName(context, definition.name, "name");
@@ -788,6 +789,9 @@ function variableStudioAssignVariableInternal(context is Context, id is Id, defi
             reportFeatureWarning(context, id, ErrorStringEnum.VARIABLE_CANNOT_EVALUATE);
         }
     }
+
+    if (definition.name == '' && isAtVersionOrLater(context, FeatureScriptVersionNumber.V2995_REMOVE_NAME_WORKAROUND))
+        setFeatureComputedParameter(context, id, { "name" : "name", "value" : "?" });
 
     verifyVariableName(context, definition.name, "name");
     publishVariableValue(definition.name, context, id, value, definition.description);

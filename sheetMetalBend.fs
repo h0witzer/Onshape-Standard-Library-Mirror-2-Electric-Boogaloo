@@ -5,9 +5,7 @@ FeatureScript ✨; /* Automatically generated version */
 
 import(path : "onshape/std/common.fs", version : "✨");
 import(path : "onshape/std/moveFace.fs", version : "✨");
-import(path : "onshape/std/sheetMetalFlange.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
-import(path : "onshape/std/projectiontype.gen.fs", version : "✨");
 
 /**
  * @internal

@@ -13,11 +13,8 @@ import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/attributes.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
-import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/modifyFillet.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 
 /**
  * sheetMetalJoint feature modifies sheet metal joint by changing its attribute.

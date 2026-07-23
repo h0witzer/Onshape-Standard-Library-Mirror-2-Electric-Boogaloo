@@ -10,7 +10,6 @@ export import(path : "onshape/std/errorstringenum.gen.fs", version : "✨");
 // Imports used internally
 import(path : "onshape/std/context.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 
 /**
  * `regenError` functions are used to construct maps for throwing to signal feature regeneration errors.

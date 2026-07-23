@@ -9,14 +9,11 @@ export import(path : "onshape/std/query.fs", version : "✨");
 export import(path : "onshape/std/tool.fs", version : "✨");
 
 // Imports used internally
-import(path : "onshape/std/box.fs", version : "✨");
 import(path : "onshape/std/clashtype.gen.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/primitives.fs", version : "✨");
-import(path : "onshape/std/transform.fs", version : "✨");
-import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 
 

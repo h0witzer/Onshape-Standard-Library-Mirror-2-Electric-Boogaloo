@@ -6,8 +6,6 @@ FeatureScript ✨; /* Automatically generated version */
 export import(path : "onshape/std/query.fs", version : "✨");
 export import(path : "onshape/std/manipulator.fs", version : "✨");
 
-import(path : "onshape/std/box.fs", version : "✨");
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/curveGeometry.fs", version : "✨");
 import(path : "onshape/std/debug.fs", version : "✨");

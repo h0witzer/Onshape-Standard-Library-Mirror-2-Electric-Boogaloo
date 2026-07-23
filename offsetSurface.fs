@@ -10,14 +10,12 @@ export import(path : "onshape/std/manipulator.fs", version : "✨");
 
 // Imports used internally
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/geomOperations.fs", version : "✨");
 import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
-import(path : "onshape/std/vector.fs", version : "✨");
 
 
 /**

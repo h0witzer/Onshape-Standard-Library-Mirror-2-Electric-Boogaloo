@@ -7,7 +7,6 @@ FeatureScript ✨; /* Automatically generated version */
 export import(path : "onshape/std/smbendreliefstyle.gen.fs", version : "✨");
 
 import(path : "onshape/std/attributes.fs", version : "✨");
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");

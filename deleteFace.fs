@@ -7,10 +7,7 @@ FeatureScript ✨; /* Automatically generated version */
 export import(path : "onshape/std/query.fs", version : "✨");
 
 // Imports used internally
-import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
-import(path : "onshape/std/transform.fs", version : "✨");
 
 /**
  * Specifies how the void resulting from delete face should be closed, if at all.

@@ -20,7 +20,6 @@ import(path : "onshape/std/derive.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/instantiator.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
@@ -105,7 +104,7 @@ export const importDerived = defineFeature(function(context is Context, id is Id
             annotation { "Default" : true, "Name" : "Include mate connectors" }
             definition.includeMateConnectors is boolean;
 
-            annotation { "Default" : true, "Name" : "Include properties" }
+            annotation { "Default" : true, "Name" : "Include properties", "UIHint" : UIHint.REMEMBER_PREVIOUS_VALUE }
             definition.includeProperties is boolean;
 
         }

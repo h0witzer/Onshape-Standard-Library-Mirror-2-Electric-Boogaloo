@@ -4,7 +4,6 @@ FeatureScript ✨; /* Automatically generated version */
 // Copyright (c) 2013-Present PTC Inc.
 
 import(path : "onshape/std/boundingtype.gen.fs", version : "✨");
-import(path : "onshape/std/booleanoperationtype.gen.fs", version : "✨");
 import(path : "onshape/std/chamfer.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/cutlistMath.fs", version : "✨");
@@ -18,7 +17,6 @@ import(path : "onshape/std/fillet.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/manipulator.fs", version : "✨");
 import(path : "onshape/std/offsetSurface.fs", version : "✨");
-import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/sketch.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");

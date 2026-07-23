@@ -6,7 +6,6 @@ FeatureScript ✨; /* Automatically generated version */
 import(path : "onshape/std/attributes.fs", version : "✨");
 import(path : "onshape/std/boolean.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/curveGeometry.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/holeAttribute.fs", version : "✨");
@@ -19,7 +18,6 @@ import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
-import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
 

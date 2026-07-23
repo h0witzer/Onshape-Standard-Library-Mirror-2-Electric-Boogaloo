@@ -18,7 +18,6 @@ export import(path : "onshape/std/uihint.gen.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/recordpatterntype.gen.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
@@ -679,6 +678,7 @@ function lastOperationId(context is Context) returns Id
 * Used to set external disambiguation for operations with unstable component in id.
 * The disambiguation will be applied to results of sub-operations which otherwise don't
 * track dependency e.g. [Sketch] , [opPlane], [opPoint]
+* @seealso [unstableIdComponent]
 * @param id {Id} : ends in unstable component
 */
 export function setExternalDisambiguation(context is Context, id is Id, query is Query)

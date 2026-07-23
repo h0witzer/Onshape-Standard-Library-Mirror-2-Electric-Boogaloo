@@ -3,8 +3,6 @@ FeatureScript ✨; /* Automatically generated version */
 // See the LICENSE tab for the license text.
 // Copyright (c) 2013-Present PTC Inc.
 
-import(path : "onshape/std/containers.fs", version : "✨");
-
 /**
  * @internal
  * Runtime workflow information.  Contains the current state and any actions that are possible.

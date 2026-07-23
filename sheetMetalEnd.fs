@@ -4,13 +4,11 @@ FeatureScript ✨; /* Automatically generated version */
 // Copyright (c) 2013-Present PTC Inc.
 
 
-import(path : "onshape/std/attributes.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/debug.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/error.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 

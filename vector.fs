@@ -4,7 +4,6 @@ FeatureScript ✨; /* Automatically generated version */
 // Copyright (c) 2013-Present PTC Inc.
 
 //Vector math
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 import(path : "onshape/std/matrix.fs", version : "✨");

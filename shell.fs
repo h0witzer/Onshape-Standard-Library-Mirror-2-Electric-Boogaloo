@@ -7,9 +7,7 @@ FeatureScript ✨; /* Automatically generated version */
 export import(path : "onshape/std/query.fs", version : "✨");
 
 // Imports used internally
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 
 /**

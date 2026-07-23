@@ -13,7 +13,6 @@ export import(path : "onshape/std/feature.fs", version : "✨");
 export import(path : "onshape/std/featureList.fs", version : "✨");
 export import(path : "onshape/std/valueBounds.fs", version : "✨");
 
-import(path : "onshape/std/formedUtils.fs", version : "✨");
 import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/sheetMetalPattern.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
@@ -434,26 +433,35 @@ function doFacePatternBasedFeaturePattern(context is Context, id is Id, definiti
     //handle parts to pattern
     const separatedSolids = separateSheetMetalQueries(context, allSolids);
     var partsToPattern = qUnion([separatedSolids.sheetMetalQueries, allWiresPointsAndComposites, qUnion(sketchSheets)]);
+
+    //Queries for faces to pattern
+    const allCreatedFaces = qCreatedBy(definition.instanceFunction, EntityType.FACE);
+    //skip faces from sheets, sheetMetalQueries, and constituents of composites already handled
+    const allFacesToSkip = qOwnedByBody(qUnion([qUnion(originalSketchSheets), separatedSolids.sheetMetalQueries, allBodiesInComposites]), EntityType.FACE);
+
+    // In order to correctly process attached mate connectors we need to inform body pattern of the seeds we'll pass to the face pattern
+    // And inform face pattern of the companion body pattern id, which might have created instances of attached mate connectors.
+    const facesToPattern = qSubtraction(allCreatedFaces, allFacesToSkip);
+    const separatedFaces = separateSheetMetalQueries(context, facesToPattern);
+
     if (!isQueryEmpty(context, partsToPattern))
     {
         definition.entities = partsToPattern;
         definition.patternType = PatternType.PART;
+        definition.companionFacePatternSeeds = separatedFaces.nonSheetMetalQueries;
         try(sheetMetalAwareGeometryPattern(context, id + "parts", definition, identityTransform(), true));
         //don't transfer status to support partial results
         @transferSubfeatureErrorDisplay(context, id, {"subfeatureId" : id + "parts"});
     }
 
     //handle faces to pattern
-    const allCreatedFaces = qCreatedBy(definition.instanceFunction, EntityType.FACE);
-    //skip faces from sheets, sheetMetalQueries, and constituents of composites already handled
-    const allFacesToSkip = qOwnedByBody(qUnion([qUnion(originalSketchSheets), separatedSolids.sheetMetalQueries, allBodiesInComposites]), EntityType.FACE);
-    const facesToPattern = qSubtraction(allCreatedFaces, allFacesToSkip);
     if (!isQueryEmpty(context, facesToPattern))
     {
         definition.entities = facesToPattern;
         //these two options are only used in sheetMetalGeometryPattern
         definition.patternType = PatternType.FACE;
         definition.filterVertices = true; // instead of erroring out filter the unnecessary selections
+        definition.companionBodyPattern = id + "parts";
         try(sheetMetalAwareGeometryPattern(context, id + "faces", definition, identityTransform(), true));
         //don't transfer status to support partial results
         @transferSubfeatureErrorDisplay(context, id, {"subfeatureId" : id + "faces"});

@@ -87,7 +87,6 @@ import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 
 /**
  * A `Manipulator` is a type which can be passed into `addManipulators`,

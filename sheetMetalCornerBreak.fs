@@ -13,14 +13,11 @@ export import(path : "onshape/std/manipulator.fs", version : "✨");
 export import(path : "onshape/std/query.fs", version : "✨");
 
 import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/edgeconvexitytype.gen.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalInFlat.fs", version : "✨");
 import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
-import(path : "onshape/std/vector.fs", version : "✨");
 
 /**
  * Specifies type of edge blend

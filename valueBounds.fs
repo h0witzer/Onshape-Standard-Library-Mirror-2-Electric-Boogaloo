@@ -32,7 +32,6 @@ FeatureScript ✨; /* Automatically generated version */
  * ```
  */
 
-import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
 import(path : "onshape/std/error.fs", version : "✨");
 export import(path : "onshape/std/units.fs", version : "✨");

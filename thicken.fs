@@ -14,7 +14,6 @@ export import(path : "onshape/std/tool.fs", version : "✨");
 // Imports used internally
 import(path : "onshape/std/boolean.fs", version : "✨");
 import(path : "onshape/std/booleanHeuristics.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 

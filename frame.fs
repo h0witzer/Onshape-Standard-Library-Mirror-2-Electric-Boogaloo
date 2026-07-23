@@ -3,9 +3,7 @@ FeatureScript ✨; /* Automatically generated version */
 // See the LICENSE tab for the license text.
 // Copyright (c) 2013-Present PTC Inc.
 
-import(path : "onshape/std/attributes.fs", version : "✨");
 import(path : "onshape/std/booleanoperationtype.gen.fs", version : "✨");
-import(path : "onshape/std/bridgingCurve.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/curveGeometry.fs", version : "✨");
@@ -18,7 +16,6 @@ import(path : "onshape/std/manipulator.fs", version : "✨");
 import(path : "onshape/std/path.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/tabReferences.fs", version : "✨");
-import(path : "onshape/std/tool.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
 import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");

@@ -13,14 +13,8 @@ FeatureScript ✨; /* Automatically generated version */
 
 export import(path : "onshape/std/booleanoperationtype.gen.fs", version : "✨");
 export import(path : "onshape/std/splitoperationkeeptype.gen.fs", version : "✨");
-import(path : "onshape/std/containers.fs", version : "✨");
-import(path : "onshape/std/curveGeometry.fs", version : "✨");
-import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/geomOperations.fs", version : "✨");
-import(path : "onshape/std/math.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
-import(path : "onshape/std/vector.fs", version : "✨");
 
 /**
  *@internal

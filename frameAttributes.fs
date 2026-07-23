@@ -4,9 +4,7 @@ FeatureScript ✨; /* Automatically generated version */
 // Copyright (c) 2013-Present PTC Inc.
 
 import (path : "onshape/std/attributes.fs", version : "✨");
-import (path : "onshape/std/containers.fs", version : "✨");
 import (path : "onshape/std/context.fs", version : "✨");
-import (path : "onshape/std/evaluate.fs", version : "✨");
 import (path : "onshape/std/feature.fs", version : "✨");
 import (path : "onshape/std/query.fs", version : "✨");
 import (path : "onshape/std/table.fs", version : "✨");

@@ -14,10 +14,8 @@ export import(path : "onshape/std/tool.fs", version : "✨");
 export import(path : "onshape/std/manipulator.fs", version : "✨");
 
 // Imports used internally
-import(path : "onshape/std/attributes.fs", version : "✨");
 import(path : "onshape/std/boolean.fs", version : "✨");
 import(path : "onshape/std/booleanHeuristics.fs", version : "✨");
-import(path : "onshape/std/box.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/curveGeometry.fs", version : "✨");
@@ -28,7 +26,6 @@ import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/sheetMetalAttribute.fs", version : "✨");
 import(path : "onshape/std/sheetMetalBuiltIns.fs", version : "✨");
 import(path : "onshape/std/sheetMetalInFlat.fs", version : "✨");
-import(path : "onshape/std/sheetMetalUtils.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/tolerance.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
@@ -37,7 +34,6 @@ import(path : "onshape/std/valueBounds.fs", version : "✨");
 
 //imports for Thin wall extrusion
 import(path : "onshape/std/path.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 
 /**
  * The viewer being operated in

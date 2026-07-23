@@ -16,7 +16,6 @@ import(path : "onshape/std/curveGeometry.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/mathUtils.fs", version : "✨");
 import(path : "onshape/std/query.fs", version : "✨");
-import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/units.fs", version : "✨");
 
@@ -389,7 +388,7 @@ predicate canBeDistanceResult(value)
  * @param context {Context}
  * @param arg {{
  *      @field side0 : One of the following: A query, or a point (3D Length Vector), or a [Line], or a [Plane], or an array of points, or an array of [Line]s, or an array of [Plane]s.
- *          @eg `qNthElement(qEverything(EntityType.FACE), 0)` or `vector(1, 2, 3) * meter` or `line(vector(1, 0, 1) * meter, vector(1, 1, 1)` or `plane(vector(1,1,1) * meter, vector(0,0,1), vector(1,0,0))`.
+ *          @eg `qNthElement(qEverything(EntityType.FACE), 0)` or `vector(1, 2, 3) * meter` or `line(vector(1, 0, 1) * meter, vector(1, 1, 1))` or `plane(vector(1,1,1) * meter, vector(0,0,1), vector(1,0,0))`.
  *      @field extendSide0 {boolean} : If `true` and side0 is a query, bodies will be ignored and edges and faces extended to
  *          their possibly infinite underlying surfaces.  Defaults to `false`. @optional
  *      @field side1 : Like `side0`.

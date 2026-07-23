@@ -2,8 +2,6 @@ FeatureScript ✨; /* Automatically generated version */
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
 import(path : "onshape/std/manipulator.fs", version : "✨");
-import(path : "onshape/std/math.fs", version : "✨");
-import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/topologyUtils.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");

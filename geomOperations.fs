@@ -17,8 +17,6 @@ FeatureScript ✨; /* Automatically generated version */
  */
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/context.fs", version : "✨");
-import(path : "onshape/std/curveGeometry.fs", version : "✨");
-import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/query.fs", version : "✨");
 import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
@@ -176,6 +174,7 @@ export const opBoolean = function(context is Context, id is Id, definition is ma
  *      @field vDerivativeInfo {array} :  @optional An array of maps analogous to uDerivativeInfo, but for v profiles.
  *      @field showIsocurves {boolean} : Show graphical representation of a subset of isoparameteric curves on each face of the created boundary surface. Default `false`. @optional
  *      @field curveCount {number} : When `showIsocurves` is `true`, the number of curves to draw in each direction of each face's grid. Default `10`. @optional
+ *      @field useProfileApproximation {boolean} : If true, the profiles will be reapproximated if it is likely to improve quality. Default is true. @optional
  * }}
  */
 export const opBoundarySurface = function(context is Context, id is Id, definition is map)
@@ -767,6 +766,8 @@ export const opFillSurface = function(context is Context, id is Id, definition i
  *      @field derivatives {map} : A map of derivatives at non-end points.
  *           Entries should be `index : derivative`, where `index` is an integer between 1 and `size(points) - 2`
  *           and `derivative` is a `Vector` that specifies the derivative at `points[index]`. @optional
+ *      @field hasTargetLength {boolean} : Whether the spline should attempt to match a target length. Default is `false`. @optional
+ *      @field targetLength {ValueWithUnits} : The target length of the resulting spline. Only used if `hasTargetLength` is `true`. @optional
  * }}
  */
 export const opFitSpline = function(context is Context, id is Id, definition is map)
@@ -1050,6 +1051,7 @@ export const opImportForeign = function(context is Context, id is Id, definition
  * }}
  */
 export const opCreateIsocline = function(context is Context, id is Id, definition is map)
+precondition definition.direction is Vector;
 {
     return @opCreateIsocline(context, id, definition);
 };
