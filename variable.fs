@@ -740,6 +740,7 @@ precondition
         // we need these to support parameter visibility checks based on the real assignVariable feature
         @setFeatureComputedParameter(context, id, { "name" : "variableType", "value" : definition.variableType });
         @setFeatureComputedParameter(context, id, { "name" : "mode", "value" : VariableMode.ASSIGNED });
+        @setFeatureComputedParameter(context, id, { "name" : "description", "value" : definition.description });
 
         // call the very trimmed down version of assignVariable
         variableStudioAssignVariableInternal(context, id, visible);

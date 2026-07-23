@@ -1461,6 +1461,43 @@ precondition
 }
 
 /**
+ * @internal
+ * Returns the flat transformation stored on a sheet metal wall face or bend edge.
+ * This transform maps points from 3D model space to flat-pattern space.
+ * Accepts a face or edge from either the 3D solid model or the SM definition surface directly.
+ * @param arg {{
+ *      @field face {Query} : A wall face or bend edge of a 3D or flat sheet metal model
+ *                            (does not have to be the flat face). May also be a face or edge
+ *                            of the SM definition surface body.
+ * }}
+ */
+export function evSheetMetalFlatTransformation(context is Context, arg is map) returns Transform
+precondition
+{
+    arg.face is Query;
+}
+{
+    return transformFromBuiltin(@evSheetMetalFlatTransformation(context, arg));
+}
+
+/**
+ * @internal
+ * Returns `true` if the given bend centerline wire body bends upward (toward the face normal),
+ * or `false` if it bends downward (away from the face normal).
+ * @param arg {{
+ *      @field wireBody {Query} : A bend centerline wire body from the sheet metal model.
+ * }}
+ */
+export function evSheetMetalBendUp(context is Context, arg is map) returns boolean
+precondition
+{
+    arg.wireBody is Query;
+}
+{
+    return @evSheetMetalBendUp(context, arg);
+}
+
+/**
  * Returns the deviation between the input points and the input topologies.
  * @param arg {{
  *      @field points{array} : Points to measure the deviation from.

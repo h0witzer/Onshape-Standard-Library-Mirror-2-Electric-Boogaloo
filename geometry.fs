@@ -18,6 +18,7 @@ export import(path : "onshape/std/common.fs", version : "✨");
 
 /* Onshape standard library features */
 export import(path : "onshape/std/annotationdimensiondirection.gen.fs", version : "✨");
+export import(path : "onshape/std/annotationattachmentlocation.gen.fs", version : "✨");
 export import(path : "onshape/std/bodyDraft.fs", version : "✨");
 export import(path : "onshape/std/bridgingCurve.fs", version : "✨");
 export import(path : "onshape/std/bsurf.fs", version : "✨");

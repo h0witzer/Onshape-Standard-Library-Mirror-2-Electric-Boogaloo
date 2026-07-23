@@ -34,6 +34,8 @@ import(path : "onshape/std/vector.fs", version : "✨");
  *                                        `destination` `WrapSurface`s for [opWrap]. Must lie on the tangent plane
  *                                        of the `WrapSurface` at the `anchorPoint`. If this condition is not met,
  *                                        [opWrap] will fail.
+ *      @field allowanceRadius {ValueWithUnits} : valid only for a cylindrical `WrapSurface`.
+ *                                                When used in sheet metal functionality, this is the radius of neutral surface.
  * }}
  */
 export type WrapSurface typecheck canBeWrapSurface;
@@ -45,6 +47,7 @@ export predicate canBeWrapSurface(val)
     hasOneDefinedValue(val, ["face", "plane", "cylinder", "cone"]);
     is3dLengthVector(val.anchorPoint);
     is3dDirection(val.anchorDirection);
+    val.allowanceRadius == undefined || isLength(val.allowanceRadius);
 }
 
 /** @internal */

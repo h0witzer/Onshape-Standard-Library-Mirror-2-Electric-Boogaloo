@@ -496,7 +496,7 @@ function getFaceEdgeAdjacentPair(context is Context, faceQuery is Query, sweptEd
             {
                 const parameter = distanceResult.sides[0].parameter;
                 // verify at a line endpoint
-                verify(tolerantEquals(parameter, 0) || tolerantEquals(parameter, 1), "Didn't find edge end point");
+                verify(tolerantEquals(parameter, 0, TOLERANCE.zeroLength) || tolerantEquals(parameter, 1, TOLERANCE.zeroLength), "Didn't find edge end point");
                 return { "face" : face, "edge" : edge, "parameter" : parameter };
             }
         }
