@@ -1,0 +1,13 @@
+{
+  "name": "onshape-std-library-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-session updater for the Onshape std-library mirror (no API key).",
+  "scripts": {
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.61.0"
+  }
+}
