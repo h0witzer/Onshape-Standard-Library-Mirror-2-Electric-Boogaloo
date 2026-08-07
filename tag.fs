@@ -212,7 +212,7 @@ predicate definePcbHolesTagParams(definition is map)
     annotation { "Name" : "Base plane", "Filter" : GeometryType.PLANE, "MaxNumberOfPicks" : 1 }
     definition.basePlane is Query;
 
-    annotation { "Name" : "Holes", "Item name" : "Hole", "Item label template" : "Hole #designator",
+    annotation { "Name" : "Holes", "Item name" : "Hole", "Item label template" : "[#designator] #interiorFaces",
                  "UIHint" : [UIHint.COLLAPSE_ARRAY_ITEMS, UIHint.INITIAL_FOCUS_ON_EDIT],
                  "Driven query" : "interiorFaces" }
     definition.holes is array;

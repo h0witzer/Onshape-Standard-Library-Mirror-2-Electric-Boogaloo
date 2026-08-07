@@ -6,6 +6,7 @@ FeatureScript ✨; /* Automatically generated version */
 /**
  * Properties include name, appearance, material, and part number (see [PropertyType]).  They can be set in FeatureScript, but not read.
  */
+import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/context.fs", version : "✨");
 import(path : "onshape/std/query.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
@@ -116,6 +117,26 @@ precondition
         else if (definition.propertyType == PropertyType.MATERIAL)
         {
             result.density *= kilogram / meter ^ 3;
+            if (result.youngsModulus != undefined)
+            {
+                result.youngsModulus *= pascal;
+            }
+            if (result.tensileYieldStrength != undefined)
+            {
+                result.tensileYieldStrength *= pascal;
+            }
+            if (result.ultimateTensileStrength != undefined)
+            {
+                result.ultimateTensileStrength *= pascal;
+            }
+            if (result.compressiveYieldStrength != undefined)
+            {
+                result.compressiveYieldStrength *= pascal;
+            }
+            if (result.ultimateCompressiveStrength != undefined)
+            {
+                result.ultimateCompressiveStrength *= pascal;
+            }
             result = result as Material;
         }
         else if (definition.propertyType == PropertyType.MASS_OVERRIDE)
@@ -162,13 +183,34 @@ export function color(red is number, green is number, blue is number) returns Co
 /** Represents a material. */
 export type Material typecheck canBeMaterial;
 
-/** Typecheck for [Material] */
+const pressureMaterialProperties = [ "youngsModulus",
+    "tensileYieldStrength", "ultimateTensileStrength",
+    "compressiveYieldStrength", "ultimateCompressiveStrength"];
+
+const allMaterialProperties = concatenateArrays([ "name", "density", "poissonsRatio" ], pressureMaterialProperties);
+
+/** Typecheck for [Material]. Any map that includes a `name` field and a `density` field can be a material. */
 export predicate canBeMaterial(value)
 {
     value is map;
     value.name is string;
+
     value.density is ValueWithUnits;
     value.density.unit == DENSITY_UNITS;
+
+    for (var key in keys(value))
+    {
+        isIn(key, allMaterialProperties);
+        if (key == "poissonsRatio")
+        {
+            value[key] is number;
+        }
+        else if (isIn(key, pressureMaterialProperties))
+        {
+            value[key] is ValueWithUnits;
+            value[key].unit == PRESSURE_UNITS;
+        }
+    }
 }
 
 /**

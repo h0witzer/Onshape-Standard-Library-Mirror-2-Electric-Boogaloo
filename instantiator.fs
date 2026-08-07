@@ -9,18 +9,23 @@ FeatureScript ✨; /* Automatically generated version */
  * ```
  * firstPartStudio::import(...);
  * secondPartStudio::import(...);
+ * thirdPartStudio::import(...);
  *
  * // later, in a feature
  * const instantiator = newInstantiator(id + "myId");
  *
  * var firstQuery = addInstance(instantiator, firstPartStudio::build, {
- *                                  "configuration" : { "configurationInput" : configurationValue },
+ *                                  "configuration" : { "configurationList" : firstPartStudio::configurationList_conf.configurationValue},
  *                                  "transform"     : transform(vector(1, 2, 3) * inch)
  *                              });
  * var secondQuery = addInstance(instantiator, secondPartStudio::build, {
- *                                   "configuration" : secondConfiguration,
+ *                                   "configuration" : { "configurationBoolean" : false },
  *                                   "transform"     : someOtherTransform,
  *                                   "mateConnector" : queryForMateConnectorInSecondPartStudio // Specifies the origin
+ *                               });
+ * var thirdQuery = addInstance(instantiator, thirdPartStudio::build, {
+ *                                   "configuration" : { "configurationLength" : 1 * inch },
+ *                                   "transform"     : someOtherTransform
  *                               });
  * // repeat the above as necessary
  *
@@ -30,6 +35,15 @@ FeatureScript ✨; /* Automatically generated version */
  * Internally, the instantiator groups all added instances by Part Studio and configuration. The final call to `instantiate()` is
  * optimized so that any duplicates of the same Part Studio and the same configuration are patterned instead of re-derived,
  * resulting in better performance and scalability for features instantiating the same bodies multiple times.
+ *
+ * For Configuration variable inputs, include units for lengths and angles. A List configuration input is considered an enum
+ * in FeatureScript. The enum type name is the configuration input name plus the `_conf` suffix:
+ *
+ * ```
+ * "configuration" : { "configListName" : PART_STUDIO_NAMESPACE::configListName_conf.configValue }
+ * ```
+ *
+ * See also: [Imports](imports.html#configs) and [Edit FeatureScript IDs](https://cad.onshape.com/help/Content/PartStudio/managing_configurations.htm#editFsIds).
  */
 
 export import(path : "onshape/std/tabReferences.fs", version : "✨");

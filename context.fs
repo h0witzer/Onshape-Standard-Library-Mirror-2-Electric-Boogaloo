@@ -317,6 +317,16 @@ export function getAllVariables(context is Context) returns map
 }
 
 /**
+ * @internal
+ * Retrieves all variables (including configuration variables) attached to the
+ * context as a map from the variable name to a map with keys "value" and "description".
+ */
+export function getAllVariablesAndDescriptions(context is Context) returns map
+{
+    return @getAllVariablesAndDescriptions(context);
+}
+
+/**
  * Returns the language version of the library.  Note: this function calls `@getLanguageVersion` internally,
  * but if you call `@getLanguageVersion` directly, you may get a different result.  That is because
  * `@getLanguageVersion` returns the language version of the module making the call (which, for a module in std

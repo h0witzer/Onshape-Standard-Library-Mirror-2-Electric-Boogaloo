@@ -195,6 +195,21 @@ export function callSubfeatureAndProcessStatus(topLevelId is Id, fn is function,
 }
 
 /**
+ * Calls a subfeature with error propagation and an identity parameter mapping so that
+ * faulty parameter IDs from the subfeature are reported as-is on the top-level feature.
+ *
+ * @param topLevelId   : @autocomplete `id`
+ * @param fn           : @autocomplete `sheetMetalStart`
+ * @param subfeatureId : @autocomplete `id + "sheetMetalStart"`
+ * @param definition   : @autocomplete `definition`
+ */
+export function callSubfeatureAndProcessStatusSameParameters(topLevelId is Id, fn is function, context is Context, subfeatureId is Id, definition is map)
+{
+    return callSubfeatureAndProcessStatus(topLevelId, fn, context, subfeatureId, definition,
+        { "propagateErrorDisplay" : true, "featureParameterMappingFunction" : function(param) { return param; } });
+}
+
+/**
  * See [callSubfeatureAndProcessStatus](callSubfeatureAndProcessStatus(Id, function, Context, Id, map)).
  *
  * @param topLevelId   : @autocomplete `id`

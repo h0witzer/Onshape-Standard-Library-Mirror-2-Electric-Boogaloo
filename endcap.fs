@@ -12,6 +12,7 @@ import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/error.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
+import(path : "onshape/std/frameAttributes.fs", version : "✨");
 import(path : "onshape/std/frameUtils.fs", version : "✨");
 import(path : "onshape/std/fillet.fs", version : "✨");
 import(path : "onshape/std/math.fs", version : "✨");
@@ -231,6 +232,7 @@ export const endcap = defineFeature(function(context is Context, id is Id, defin
                     const internalCapFaceMap = generateProfileInternal(context, id, definition, selectedFace, selectedFaceGeometryMap);
                     const outerFaces = qSubtraction(internalCapFaceMap.innerFace, qFacesParallelToDirection(internalCapFaceMap.innerFace, facePlane.normal));
                     const edgeFaces = qSubtraction(internalCapFaceMap.innerFace, outerFaces);
+                    endCapFaces = internalCapFaceMap.innerFace;
 
                     if (definition.internalOffsetDistance > 0)
                     {
@@ -269,6 +271,11 @@ export const endcap = defineFeature(function(context is Context, id is Id, defin
                 else if (definition.profileType == ProfileType.CIRCLE)
                 {
                     endCapFaces = generateProfileCircle(context, id, definition, selectedFace, selectedFaceGeometryMap);
+                }
+
+                if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3032_END_CAP_GUSSET_FRAME_ATTRIBUTES))
+                {
+                    setFrameAuxiliaryPartAttribute(context, qOwnerBody(endCapFaces), frameAuxiliaryPartAttribute({ "auxiliaryPartType" : FrameAuxiliaryPartType.END_CAP }));
                 }
 
                 if (definition.profileType != ProfileType.INTERNAL)

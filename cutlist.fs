@@ -136,7 +136,7 @@ function modifyFramesSelection(context is Context, definition is map) returns ma
         // filter carefully to get only the composite body of closed composite frame segments
         const frameClosedCompositeSegments = qFrameAllClosedCompositeSegments();
         const frameBodiesInClosedComposites = qContainedInCompositeParts(frameClosedCompositeSegments);
-        const allFrameBodies = qFrameAllBodies();
+        const allFrameBodies = qUnion([qFrameAllBodies(), qFrameAuxiliaryParts(context)]);
         const nonCompositeFrameBodies = qSubtraction(allFrameBodies, frameBodiesInClosedComposites);
         const segments = qUnion(frameClosedCompositeSegments, nonCompositeFrameBodies);
         definition.frames = segments;
@@ -261,6 +261,11 @@ function getRows(context is Context, topLevelId is Id, definition is map, bodies
     return groupRows(context, topLevelId, definition, frameToRowInfo, bodiesToDelete);
 }
 
+function descriptionForAuxiliaryPart(partType is FrameAuxiliaryPartType) returns string
+{
+    return partType == FrameAuxiliaryPartType.END_CAP ? CUTLIST_DESCRIPTION_END_CAP : CUTLIST_DESCRIPTION_GUSSET;
+}
+
 // Returns a map from individual frames to their row info.  Incorporates information from both the attributes attached
 // to frames, and the column overrides present in the feature.
 function buildUngroupedRows(context is Context, definition is map) returns map
@@ -284,6 +289,14 @@ function buildUngroupedRows(context is Context, definition is map) returns map
         if (cutlistAttribute != undefined)
         {
             frameToRowInfo[frame] = makeRowInfo(index, false, { (CUTLIST_DESCRIPTION) : CUTLIST_DESCRIPTION_CUTLIST_ENTRY });
+            continue;
+        }
+
+        // End caps / gussets: description only
+        const auxiliaryPartAttribute = getFrameAuxiliaryPartAttribute(context, frame);
+        if (auxiliaryPartAttribute != undefined)
+        {
+            frameToRowInfo[frame] = makeRowInfo(index, true, { (CUTLIST_DESCRIPTION) : descriptionForAuxiliaryPart(auxiliaryPartAttribute.auxiliaryPartType) });
             continue;
         }
 

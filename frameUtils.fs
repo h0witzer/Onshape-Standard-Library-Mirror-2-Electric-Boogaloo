@@ -45,6 +45,10 @@ export const CUTLIST_LENGTH = "Length";
 export const CUTLIST_ANGLE_1 = "Angle 1";
 /** @internal */
 export const CUTLIST_ANGLE_2 = "Angle 2";
+/** @internal */
+export const CUTLIST_DESCRIPTION_END_CAP = "End cap";
+/** @internal */
+export const CUTLIST_DESCRIPTION_GUSSET = "Gusset";
 
 // Default descriptions for various cutlist entries
 const CUTLIST_DESCRIPTION_CUSTOM_PROFILE = "Custom profile";

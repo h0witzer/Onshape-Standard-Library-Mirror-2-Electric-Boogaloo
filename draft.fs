@@ -203,7 +203,7 @@ export const draft = defineFeature(function(context is Context, id is Id, defini
                     DraftFeatureType.NEUTRAL_PLANE : initReferenceSurfaceDraft(context, id, definition),
                     DraftFeatureType.PARTING_LINE : initReferenceEntityDraft(context, id, definition)
                 };
-        callSubfeatureAndProcessStatus(id, opDraft, context, id, definition);
+        opDraft(context, id, definition);
     },
     {
             draftFeatureType : DraftFeatureType.NEUTRAL_PLANE,

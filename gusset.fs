@@ -226,6 +226,11 @@ export const gusset = defineFeature(function(context is Context, id is Id, defin
                     } as GussetDefinition;
             const gussetCreationResult = createGussetSolid(context, loopId, definition, gussetDefinition);
 
+            if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3032_END_CAP_GUSSET_FRAME_ATTRIBUTES))
+            {
+                setFrameAuxiliaryPartAttribute(context, gussetCreationResult.gussetBody, frameAuxiliaryPartAttribute({ "auxiliaryPartType" : FrameAuxiliaryPartType.GUSSET }));
+            }
+
             if (i == 0) // Add manipulators only to the last edge
             {
                 createMidpointManipulator(context, id, definition, offsetDirection, midpoint + alignedOffset);
@@ -398,6 +403,7 @@ function createGussetSolid(context is Context, id is Id, definition is map, guss
     skSolve(endSketch);
 
     // This intersection call is already checked in getGussetBasePlanes, it can't fail
+    const extrudeId = id + "finalExtrude";
     const intersectionLine = intersection(planeA, planeB);
     if (definition.gussetPosition == GussetPosition.ALIGNED && !isQueryEmpty(context, definition.alignedReference))
     {
@@ -410,7 +416,7 @@ function createGussetSolid(context is Context, id is Id, definition is map, guss
         {
             direction = normalize(gussetDefinition.gussetMidpoint - gussetDefinition.edgeMidpoint) * (definition.shouldFlipAlignment ? 1 : -1);
         }
-        opExtrude(context, id + "finalExtrude", {
+        opExtrude(context, extrudeId, {
                     "entities" : qCreatedBy(id + "profileEndSketch", EntityType.FACE),
                     "direction" : direction,
                     "endBound" : BoundingType.BLIND,
@@ -420,7 +426,7 @@ function createGussetSolid(context is Context, id is Id, definition is map, guss
     }
     else
     {
-        opExtrude(context, id + "finalExtrude", {
+        opExtrude(context, extrudeId, {
                     "entities" : qCreatedBy(id + "profileEndSketch", EntityType.FACE),
                     "direction" : intersectionLine.direction,
                     "endBound" : BoundingType.BLIND,
@@ -429,6 +435,8 @@ function createGussetSolid(context is Context, id is Id, definition is map, guss
                     "startDepth" : definition.thickness / 2
                 });
     }
+
+    result.gussetBody = qCreatedBy(extrudeId, EntityType.BODY);
     opDeleteBodies(context, id + "deleteFinalSketch", { "entities" : qCreatedBy(id + "profileEndSketch", EntityType.BODY)
             });
 

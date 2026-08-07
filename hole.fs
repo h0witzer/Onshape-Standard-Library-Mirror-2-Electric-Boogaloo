@@ -3270,9 +3270,23 @@ function createAttributesFromQuery(context is Context, topLevelId is Id, opHoleI
                 var cosmeticThreadData = undefined;
                 if (hasThreadData && isTapped && faceAndSectionFaceType.value == HoleSectionFaceType.THROUGH_FACE)
                 {
-                    const threadOrigin = evVertexPoint(context, {
-                        "vertex" : holeIdentity
-                    });
+                    var threadOrigin;
+                    if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3037_HOLE_COSMETIC_THREAD_START_FROM_FIX))
+                    {
+                        const startBoundEntityForThread = featureDefinition.startStyle == HoleStartStyle.PLANE
+                                ? featureDefinition.startBoundEntity : qNothing();
+
+                        const threadAxis = computeAxes(context, [holeIdentity], featureDefinition.oppositeDirection,
+                                featureDefinition.transform, startBoundEntityForThread)[0];
+
+                        threadOrigin = threadAxis.origin;
+                    }
+                    else
+                    {
+                        threadOrigin = evVertexPoint(context, {
+                            "vertex" : holeIdentity
+                        });
+                    }
                     const threadedSurface = evSurfaceDefinition(context, { "face" : face });
                     var threadCoordSys = threadedSurface.coordSystem;
                     threadCoordSys.origin = threadOrigin;

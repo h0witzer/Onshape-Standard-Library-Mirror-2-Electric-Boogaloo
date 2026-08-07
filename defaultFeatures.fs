@@ -93,7 +93,7 @@ export function qDefaultBodies() returns Query
 
 /**
  * A query for the front plane.
- * @param entityType {EntityType}: Specify type `FACE` or `BODY`.
+ * @param entityType {EntityType}: Specify type `FACE` or `BODY`. @autocomplete `EntityType.FACE`
  */
 export function qFrontPlane(entityType is EntityType) returns Query
 precondition
@@ -106,7 +106,7 @@ precondition
 
 /**
  * A query for the right plane.
- * @param entityType {EntityType}: Specify type `FACE` or `BODY`.
+ * @param entityType {EntityType}: Specify type `FACE` or `BODY`. @autocomplete `EntityType.FACE`
  */
 export function qRightPlane(entityType is EntityType) returns Query
 precondition
@@ -119,7 +119,7 @@ precondition
 
 /**
  * A query for the top plane.
- * @param entityType {EntityType}: Specify type `FACE` or `BODY`.
+ * @param entityType {EntityType}: Specify type `FACE` or `BODY`. @autocomplete `EntityType.FACE`
  */
 export function qTopPlane(entityType is EntityType) returns Query
 precondition
@@ -132,7 +132,7 @@ precondition
 
 /**
  * A query for the origin point.
- * @param entityType {EntityType}: Specify type `VERTEX` or `BODY`.
+ * @param entityType {EntityType}: Specify type `VERTEX` or `BODY`. @autocomplete `EntityType.VERTEX`
  */
 export function qOrigin(entityType is EntityType) returns Query
 precondition

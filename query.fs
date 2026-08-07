@@ -1199,7 +1199,7 @@ export function qSymmetricDifference(query1 is Query, query2 is Query) returns Q
 /**
  * A query for all of the entities (faces, vertices, edges, and bodies) in a
  * context which belong to a specified body or bodies.
- * @param entityType : @optional
+ * @param entityType : @optional @autocomplete `EntityType.FACE`
  */
 export function qOwnedByBody(body is Query, entityType is EntityType) returns Query
 {

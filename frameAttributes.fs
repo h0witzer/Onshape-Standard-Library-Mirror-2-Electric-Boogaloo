@@ -263,3 +263,75 @@ export function getCustomFrameAlignmentPoints(context is Context, profileId is I
 {
     return qCreatedBy(profileId, EntityType.VERTEX)->qHasAttribute(FRAME_ATTRIBUTE_CUSTOM_ALIGNMENT_POINT_NAME);
 }
+
+/**
+ * The possible types of a [FrameAuxiliaryPartAttribute].
+ *
+ * Frame auxiliary parts are associated with a frame structure but are not frame members themselves.
+ *
+ * @value END_CAP: A body created by the End cap feature
+ * @value GUSSET: A body created by the Gusset feature
+ */
+export enum FrameAuxiliaryPartType
+{
+    END_CAP,
+    GUSSET
+}
+
+/**
+ * An attribute attached to a frame-related auxiliary body, such as an end cap or gusset.
+ *
+ * This attribute is intentionally separate from [FrameProfileAttribute] because auxiliary parts are not frame members
+ * and must not be processed by frame-specific operations such as profile, path, length, angle, or trim calculations.
+ */
+export type FrameAuxiliaryPartAttribute typecheck canBeFrameAuxiliaryPartAttribute;
+
+/** @internal */
+export predicate canBeFrameAuxiliaryPartAttribute(value)
+{
+    value is map;
+    value.auxiliaryPartType is FrameAuxiliaryPartType;
+}
+
+/**
+ * Construct a [FrameAuxiliaryPartAttribute].
+ */
+export function frameAuxiliaryPartAttribute(definition is map) returns FrameAuxiliaryPartAttribute
+{
+    return definition as FrameAuxiliaryPartAttribute;
+}
+
+/**
+ * Attach the given [FrameAuxiliaryPartAttribute] to each of the `entities`.
+ */
+export function setFrameAuxiliaryPartAttribute(context is Context, entities is Query, attribute is FrameAuxiliaryPartAttribute)
+{
+    setAttribute(context, { "entities" : entities, "attribute" : attribute });
+}
+
+/**
+ * Get the [FrameAuxiliaryPartAttribute] attached to the `entity`.
+ *
+ * Returns `undefined` if no matching attribute is found.
+ */
+export function getFrameAuxiliaryPartAttribute(context is Context, entity is Query)
+{
+    const attributes = getAttributes(context, {
+        "entities" : entity,
+        "attributePattern" : frameAuxiliaryPartAttribute({})
+    });
+
+    return size(attributes) > 0 ? attributes[0] : undefined;
+}
+
+/**
+ * Query for all bodies with a [FrameAuxiliaryPartAttribute].
+ *
+ * The resulting query includes end caps and gussets, but does not include frame members identified by a
+ * [FrameProfileAttribute].
+ */
+export function qFrameAuxiliaryParts(context is Context) returns Query
+{
+    return qAttributeQuery(frameAuxiliaryPartAttribute({}));
+}
+

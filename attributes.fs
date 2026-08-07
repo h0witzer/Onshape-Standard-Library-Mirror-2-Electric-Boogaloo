@@ -52,6 +52,8 @@ FeatureScript ✨; /* Automatically generated version */
 import(path : "onshape/std/context.fs", version : "✨");
 import(path : "onshape/std/query.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
+// @allowUnused - needed for the server to be able to repair cSys in PersistentCoordSystem attribute
+import(path : "onshape/std/coordSystem.fs", version : "✨");
 
 /**
  * Attach an attribute to one or several entities. Will overwrite any attribute previously set on the same entity
