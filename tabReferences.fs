@@ -36,6 +36,31 @@ export predicate canBePartStudioData(value)
 }
 
 /**
+ * The value of a Variable Studio reference parameter, specifying a reference to a Variable Studio.
+ *
+ * @type {{
+ *      @field getVariableMap {function}: A function with one argument (a configuration map) which returns a map from
+ *           variable name to the values and descriptions for each variable in the Variable Studio.
+ *      @field configuration {map}: The user-input values for the configuration of the selected Variable Studio. The keys of this
+ *           map are the configuration inputs' [FeatureScript ids](https://forum.onshape.com/discussion/9001/configurations-update-edit-featurescript-ids),
+ *           and the map can be passed (either as-is or modified) into the getVariableMap function above.
+ *      @field configurationData {map}: This maps configuration input FeatureScript ids to maps that have information about
+ *           the configuration inputs. Each of these maps has a `defaultValue` field with the default value of the configuration input.
+ *           Enum configuration inputs (configuration lists) also have an `options` field with the value of the [Enum](/FsDoc/type-tags.html#enumerations).
+ * }}
+ */
+export type VariableStudioData typecheck canBeVariableStudioData;
+
+/** @internal */
+export predicate canBeVariableStudioData(value)
+{
+    value is map;
+    value.getVariableMap is function || value.getVariableMap == undefined;
+    value.configuration is map || value.configuration == undefined;
+    value.configurationData is map || value.configurationData == undefined;
+}
+
+/**
  * The value of an image reference parameter, which can be placed in a Part Studio using [skImage]. Outside of use
  * with skImage, color data for individual pixels is not accessable from FeatureScript.
  *

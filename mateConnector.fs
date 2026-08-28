@@ -294,9 +294,14 @@ export const mateConnector = defineFeature(function(context is Context, id is Id
                 attachTo = definition.attachTo->qOwnerBody();
             }
         }
-        opMateConnector(context, id, { "owner" : definition.ownerPart,
-                                       "coordSystem" : mateConnectorCoordSystem,
-                                       "attachTo" : attachTo });
+
+        var mateConnectorDefinition = { "owner" : definition.ownerPart, "coordSystem" : mateConnectorCoordSystem, "attachTo" : attachTo };
+        if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3053_MATE_CONNECTOR_CROSS_HIGHLIGHT))
+        {
+            // Pass the origin entity so the mate connector can cross-highlight the entity it is placed on (BEL-269163)
+            mateConnectorDefinition.originEntities = definition.originQuery;
+        }
+        opMateConnector(context, id, mateConnectorDefinition);
         if (!isAtVersionOrLater(context, FeatureScriptVersionNumber.V2390_MATE_CONNECTOR_NORMAL_TO_CURVED_FACE))
         {
             transformResultIfNecessary(context, id, remainingTransform);

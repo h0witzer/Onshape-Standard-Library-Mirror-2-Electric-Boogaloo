@@ -108,6 +108,10 @@ export const sheetMetalJoint = defineSheetMetalFeature(function(context is Conte
             {
                 definition.kFactor = getDefaultSheetMetalKFactor(context, definition.entity);
             }
+            else
+            {
+                checkKFactorModificationForPcb(context, id, definition, definition.entity);
+            }
 
             if (!isFaceBend)
             {

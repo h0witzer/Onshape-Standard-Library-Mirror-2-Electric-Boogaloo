@@ -11,6 +11,7 @@ export import(path : "onshape/std/units.fs", version : "✨");
 // Imports used internally
 import(path : "onshape/std/box.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
+import(path : "onshape/std/curveGeometry.fs", version : "✨");
 import(path : "onshape/std/debug.fs", version : "✨");
 import(path : "onshape/std/evaluate.fs", version : "✨");
 import(path : "onshape/std/feature.fs", version : "✨");
@@ -90,6 +91,25 @@ export function reverse(path is Path) returns Path
     path.flipped = reverse(path.flipped);
     path.flipped = mapArray(path.flipped, flipped => !flipped);
     return path;
+}
+
+/**
+ * Returns the tangent line at one end of an edge of a [Path]: its `origin` is that end of the edge and its
+ * `direction` is the direction the [Path] travels in there.
+ *
+ * @param path {Path}: the [Path] containing the edge.
+ * @param index {number}: the index of the edge within `path.edges`. @eg `0` for the first edge of the path.
+ * @param isEnd {boolean}: `false` for the point at which traversal enters the edge, `true` for the point at
+ *          which traversal leaves it.
+ */
+export function edgeEndTangentLine(context is Context, path is Path, index is number, isEnd is boolean) returns Line
+{
+    const flipped = path.flipped[index];
+    const tangentLine = evEdgeTangentLine(context, {
+                    "edge" : path.edges[index],
+                    "parameter" : (flipped != isEnd) ? 1 : 0
+                });
+    return flipped ? line(tangentLine.origin, -tangentLine.direction) : tangentLine;
 }
 
 /**

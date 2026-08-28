@@ -408,6 +408,8 @@ predicate isArrayParameter(value)
  * Associates a FeatureScript value with a given string. This value can then be referenced in a feature name using
  * the string. The provided value can be used in a feature name by including e.g. "#myValue" in the Feature
  * Name Template.
+ * This can also be used to override the value of a READ_ONLY parameter as used by the feature dialog.
+ * This currently works only for Quantity, Boolean, and String parameters.
  * @param definition {{
  *      @field name {string} : @eg `myValue`
  *      @field value

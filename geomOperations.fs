@@ -1145,6 +1145,8 @@ export const opLoft = function(context is Context, id is Id, definition is map)
  *          first is taken as the owner.
  *      @field attachTo {Query} : A face or body query to which mate connector will be attached -
  *              will follow it in downstream transformations. @optional
+ *      @field originEntities {Query} : The entity (face, edge, or vertex) on which the mate connector is placed.
+ *              Stored on the connector so it can be cross-highlighted with the connector. @optional
  * }}
  */
 export const opMateConnector = function(context is Context, id is Id, definition is map)

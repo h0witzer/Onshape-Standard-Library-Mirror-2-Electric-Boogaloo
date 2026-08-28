@@ -40,7 +40,7 @@ export const sheetMetalFormed = defineSheetMetalFeature(function(context is Cont
         annotation { "Name" : "Flip direction", "UIHint" : UIHint.OPPOSITE_DIRECTION }
         definition.flipDirection is boolean;
 
-        annotation { "Name" : "Target face(s)", "Filter" : GeometryType.PLANE && ActiveSheetMetal.YES && SheetMetalDefinitionEntityType.FACE && ModifiableEntityOnly.YES }
+        annotation { "Name" : "Target face(s)", "Filter" : GeometryType.PLANE && ActiveSheetMetal.YES && !SMApplicationType.FLEXIBLE_PCB && SheetMetalDefinitionEntityType.FACE && ModifiableEntityOnly.YES }
         definition.targetFaces is Query;
 
     }
@@ -135,7 +135,9 @@ export function formedEditLogic(context is Context, id is Id, oldDefinition is m
 
     definition.targetFaces = qNothing();
     var targetFaces = [];
-    const activeSMFaces = qAllModifiableSolidBodiesNoMesh()->qActiveSheetMetalFilter(ActiveSheetMetal.YES)->qOwnedByBody(EntityType.FACE);
+    var activeSMFaces = qAllModifiableSolidBodiesNoMesh()->qActiveSheetMetalFilter(ActiveSheetMetal.YES)->qOwnedByBody(EntityType.FACE);
+    // Exclude flex PCB faces, which do not support formed tools (see precondition filter on targetFaces).
+    activeSMFaces = activeSMFaces->qSubtraction(qSMApplicationTypeFilter(activeSMFaces, SMApplicationType.FLEXIBLE_PCB));
     for (var location in evaluateQuery(context, definition.locations))
     {
         const cSys = evaluateCSys(context, location);

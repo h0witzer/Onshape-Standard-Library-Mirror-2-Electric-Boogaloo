@@ -19,6 +19,7 @@ import(path : "onshape/std/valueBounds.fs", version : "✨");
 import(path : "onshape/std/vector.fs", version : "✨");
 import(path : "onshape/std/nurbsUtils.fs", version : "✨");
 import(path : "onshape/std/approximationUtils.fs", version : "✨");
+import(path : "onshape/std/routingCurveAttributes.fs", version : "✨");
 
 /**
  * An `IntegerBoundSpec` for control point indices.
@@ -295,6 +296,10 @@ export const editCurve = defineFeature(function(context is Context, id is Id, de
                     "edge" : qCreatedBy(id + "bSplineCurve", EntityType.EDGE),
                     "showCurves" : true
                 });
+        // opEditCurve replaces queryToReplace's edges in place rather than creating a new body, so routing curve
+        // attributes left over from before this edit (or copied onto a freshly-extracted body by
+        // getQueryToReplace) would otherwise persist onto geometry that's no longer a valid routing curve.
+        clearRoutingCurveAttributes(context, queryToReplace);
         opDeleteBodies(context, id + "deleteBVSplineCurve", {
                     "entities" : qCreatedBy(id + "bSplineCurve", EntityType.BODY)
                 });

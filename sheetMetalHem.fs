@@ -172,6 +172,12 @@ export const sheetMetalHem = defineSheetMetalFeature(function(context is Context
                 });
         const edges = qUnion(edgesArr);
 
+        if (definition.hemType == SMHemType.ROLLED &&
+            !isQueryEmpty(context, qSMApplicationTypeFilter(edges, SMApplicationType.FLEXIBLE_PCB)))
+        {
+            throw regenError(ErrorStringEnum.SHEET_METAL_HEM_ROLLED_NOT_SUPPORTED_FOR_PCB, ["hemType", "edges"]);
+        }
+
         const adjacentConeFacesQ = edges->qAdjacent(AdjacencyType.EDGE, EntityType.FACE)->qGeometry(GeometryType.CONE);
         if (!isQueryEmpty(context, adjacentConeFacesQ) && definition.hemAlignment == SMHemAlignment.OUTER)
         {

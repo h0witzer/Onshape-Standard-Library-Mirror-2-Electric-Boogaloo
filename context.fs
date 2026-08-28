@@ -318,12 +318,32 @@ export function getAllVariables(context is Context) returns map
 
 /**
  * @internal
+ * Retrieves all variables (optionally configuration variables if `includeConfiuration` is true) attached to the
+ * context as a map from the variable name to the variable value.
+ */
+export function getAllVariables(context is Context, includeConfiguration is boolean) returns map
+{
+    return @getAllVariables(context, { "includeConfiguration" : includeConfiguration });
+}
+
+/**
+ * @internal
  * Retrieves all variables (including configuration variables) attached to the
  * context as a map from the variable name to a map with keys "value" and "description".
  */
 export function getAllVariablesAndDescriptions(context is Context) returns map
 {
     return @getAllVariablesAndDescriptions(context);
+}
+
+/**
+ * @internal
+ * Retrieves all variables (optionally configuration variables if `includeConfiuration` is true) attached to the
+ * context as a map from the variable name to a map with keys "value" and "description".
+ */
+export function getAllVariablesAndDescriptions(context is Context, includeConfiguration is boolean) returns map
+{
+    return @getAllVariablesAndDescriptions(context, { "includeConfiguration" : includeConfiguration });
 }
 
 /**
