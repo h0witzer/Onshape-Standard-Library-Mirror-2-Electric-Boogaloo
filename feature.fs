@@ -655,15 +655,23 @@ export function makeRobustQuery(context is Context, subquery is Query) returns Q
 }
 
 /**
-* Generates array of robust queries for each entity of the subquery
+* Generates array of robust queries for each entity of the subquery with strict identity preservation.
 */
 export function makeRobustQueriesBatched(context is Context, subquery is Query) returns array
+{
+    return makeRobustQueriesBatched(context, subquery, false);
+}
+
+/**
+* Generates array of robust queries for each entity of the subquery, optionally following through splits and merges.
+*/
+export function makeRobustQueriesBatched(context is Context, subquery is Query, followSplitMerge is boolean) returns array
 {
     var out = [];
     const lastOperationId = lastOperationId(context);
     for (var ent in evaluateQuery(context, subquery))
     {
-        out = append(out, qUnion([ent, startTrackingIdentityFromOp([ent], lastOperationId)]));
+        out = append(out, qUnion([ent, startTrackingIdentityFromOp([ent], lastOperationId, followSplitMerge)]));
     }
     return out;
 }
@@ -674,10 +682,20 @@ export function makeRobustQueriesBatched(context is Context, subquery is Query) 
 */
 function startTrackingIdentityFromOp(subqueries is array, operationId is Id) returns Query
 {
+    return startTrackingIdentityFromOp(subqueries, operationId, false);
+}
+
+/**
+* @internal
+* Used in `makeRobustQueriesBatched`
+*/
+function startTrackingIdentityFromOp(subqueries is array, operationId is Id, followSplitMerge is boolean) returns Query
+{
     return {
         "subquery1" : subqueries,
         "lastOperationId" : operationId,
         "identityPreservingOnly" : true,
+        "followSplitMerge" : followSplitMerge,
         "queryType" : QueryType.TRACKING
         } as Query;
 }

@@ -495,8 +495,9 @@ export const queryVariable = defineFeature(function(context is Context, id is Id
 
         if (!definition.evaluateOnUse)
         {
+            const followSplitMerge = isAtVersionOrLater(context, FeatureScriptVersionNumber.V3073_QUERY_VARIABLE_BETTER_PROPAGATION);
             // This follows the queries through modifications, substitutions and naming.
-            query = qUnion(makeRobustQueriesBatched(context, query));
+            query = qUnion(makeRobustQueriesBatched(context, query, followSplitMerge));
         }
 
         setQueryVariable(context, definition.name, definition.description, query);

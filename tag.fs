@@ -406,7 +406,6 @@ function doTagForm(context is Context, topLevelId is Id, definition is map)
     setFormAttribute(context, qOwnerBody(cSysMateConnector), FORM_BODY_CSYS_MATE_CONNECTOR);
 }
 
-
 function doTagProfile(context is Context, topLevelId is Id, definition is map)
 {
     verify(!isInFeaturePattern(context), ErrorStringEnum.FRAME_TAG_PROFILE_NO_FEATURE_PATTERN);

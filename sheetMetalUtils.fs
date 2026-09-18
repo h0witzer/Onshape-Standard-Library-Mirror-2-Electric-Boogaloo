@@ -782,7 +782,7 @@ function legacyComputeReplacementAttribute(context is Context, edge is Query, jo
 
 
 /**
- * A `RealBoundSpec` for sheet metal K-factor between 0. and 1., defaulting to `.45`.
+ * A `RealBoundSpec` for sheet metal K-factor between 0 and 1., defaulting to `.45`.
  */
 export const K_FACTOR_BOUNDS =
 {
@@ -1275,6 +1275,11 @@ export function isEntityAppropriateForAttribute(context is Context, entity is Qu
     else if (attribute.objectType == SMObjectType.CORNER)
     {
         filteredQ = qEntityFilter(entity, EntityType.VERTEX);
+    }
+    else if (attribute.objectType == SMObjectType.COLLAPSED_WALL &&
+             isAtVersionOrLater(context, FeatureScriptVersionNumber.V3080_ENT_OK_FOR_COLLAPSED_WALL))
+    {
+        filteredQ = qEntityFilter(entity, EntityType.EDGE)->qEdgeTopologyFilter(EdgeTopology.TWO_SIDED);
     }
     else
     {
