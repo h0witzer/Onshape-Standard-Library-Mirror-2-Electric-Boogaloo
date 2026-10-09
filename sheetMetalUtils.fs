@@ -790,6 +790,14 @@ export const K_FACTOR_BOUNDS =
 } as RealBoundSpec;
 
 /**
+ * A `RealBoundSpec` for flex PCB K-factor between 0 and 1., defaulting to `0`.
+ */
+export const PCB_K_FACTOR_BOUNDS =
+{
+    (unitless) : [0, 0, 1]
+} as RealBoundSpec;
+
+/**
  * A `RealBoundSpec` for rolled sheet metal K-factor between 0. and 1., defaulting to `.5`.
  */
 export const ROLLED_K_FACTOR_BOUNDS =

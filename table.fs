@@ -85,6 +85,7 @@ export predicate canBeTable(value)
     for (var row in value.rows)
         row is TableRow;
     value.entities == undefined || value.entities is Query; // entities associated with the table, if any
+    value.titleSuffix == undefined || isTableValue(value.titleSuffix); // shown after the title, which yields to it
 }
 
 /** Constructs a [Table] given a title, column definitions, and rows */
@@ -102,6 +103,29 @@ export function table(title, columnDefinitions is array, rows is array, entities
 precondition isTableValue(title);
 {
     return { "title" : title, "columnDefinitions" : columnDefinitions, "rows" : rows, "entities" : entities } as Table;
+}
+
+/**
+ * @internal
+ * Constructs a [Table] given a title, column definitions, rows, entities, and a title suffix.
+ *
+ * `titleSuffix` is displayed after the title, and the title truncates before it does. Use it for a detail that
+ * has to stay visible at any pane width, such as a measurement of what the table describes. Keep it short: it
+ * takes space from the title, and is itself truncated once it would take too much.
+ */
+export function table(title, columnDefinitions is array, rows is array, entities is Query, titleSuffix) returns Table
+precondition
+{
+    isTableValue(title);
+    titleSuffix == undefined || isTableValue(titleSuffix);
+}
+{
+    var result = { "title" : title, "columnDefinitions" : columnDefinitions, "rows" : rows, "entities" : entities };
+    if (titleSuffix != undefined)
+    {
+        result.titleSuffix = titleSuffix;
+    }
+    return result as Table;
 }
 
 // ----------------------------------- Table Column Definition -----------------------------------

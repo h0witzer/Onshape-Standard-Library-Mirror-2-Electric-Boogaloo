@@ -4872,14 +4872,33 @@ function probeForViableTargets(context is Context, id is Id, definition is map, 
     }
 
     const probeId = id + "holeTargetProbe";
+    const useBlindProbe = raycastInputs.hasDepthLimit && !raycastInputs.hasBoundLimit;
 
     var probeDefinition = definition;
     probeDefinition.scope = possibleTargets;
     probeDefinition.startStyle = HoleStartStyle.SKETCH;
-    probeDefinition.endStyle = HoleEndStyle.THROUGH;
+    probeDefinition.endStyle = useBlindProbe ? HoleEndStyle.BLIND : HoleEndStyle.THROUGH;
     probeDefinition.transform = identityTransform();
     probeDefinition.hasClearance = false;
     probeDefinition.holeFeatureCount = 0;
+
+    if (useBlindProbe)
+    {
+        probeDefinition.holeDepth = raycastInputs.depthLimit;
+
+        if (probeDefinition.tipAngleStyle == TipAngleStyle.DEGREE118)
+        {
+            probeDefinition.tipAngle = 118 * degree;
+        }
+        else if (probeDefinition.tipAngleStyle == TipAngleStyle.DEGREE135)
+        {
+            probeDefinition.tipAngle = 135 * degree;
+        }
+        else if (probeDefinition.tipAngleStyle == TipAngleStyle.FLAT)
+        {
+            probeDefinition.tipAngle = 180 * degree;
+        }
+    }
 
     const probeBox = try silent(evBox3d(context, {
                 "topology" : qUnion([possibleTargets, qUnion(evaluatedNewLocations)])
@@ -4901,14 +4920,15 @@ function probeForViableTargets(context is Context, id is Id, definition is map, 
     try
     {
         const probeData = makeProbeAxesAndIdentities(context, probeId, axes);
+        const probeOpId = probeId + "opHole";
         const probeResult = buildOpHoleDefinitionAndCallOpHole(
-            context, probeId, probeId + "opHole",
+            context, probeId, probeOpId,
             probeDefinition,
             probeData.identities,
             {
                 "axes" : probeData.axes,
                 "subtractFromTargets" : false,
-                "keepTools" : false
+                "keepTools" : true
             });
 
         const returnMapPerHole = probeResult.returnMapPerHole;
@@ -4921,7 +4941,7 @@ function probeForViableTargets(context is Context, id is Id, definition is map, 
             const knownDirection = probeData.direction[probeIndex];
 
             var effectiveDepthLimit = 0 * meter;
-            if (raycastInputs.hasDepthLimit)
+            if (!useBlindProbe && raycastInputs.hasDepthLimit)
             {
                 if (raycastInputs.hasBoundLimit)
                 {
@@ -4938,6 +4958,10 @@ function probeForViableTargets(context is Context, id is Id, definition is map, 
                 }
             }
 
+            const probeTool = qOwnerBody(qOpHoleFace(probeOpId, {
+                        "identity" : probeData.identities[probeIndex]
+                    }));
+
             for (var targetAndExtremes in returnMapPerHole[probeIndex].targetToDepthExtremes)
             {
                 const target = targetAndExtremes.key;
@@ -4948,13 +4972,40 @@ function probeForViableTargets(context is Context, id is Id, definition is map, 
                     continue;
                 }
 
-                const entranceDistance = max(depthExtremes.firstEntrance, 0 * meter);
-                const isCloseEnough = !raycastInputs.hasDepthLimit ||
-                    entranceDistance <= effectiveDepthLimit + TOLERANCE.zeroLength * meter;
-
-                if (!isCloseEnough)
+                if (useBlindProbe)
                 {
-                    continue;
+                    const collisions = evCollision(context, {
+                                "tools" : probeTool,
+                                "targets" : target
+                            });
+
+                    var intersectsTarget = false;
+                    for (var collision in collisions)
+                    {
+                        if (collision["type"] == ClashType.INTERFERE ||
+                            collision["type"] == ClashType.TARGET_IN_TOOL ||
+                            collision["type"] == ClashType.TOOL_IN_TARGET)
+                        {
+                            intersectsTarget = true;
+                            break;
+                        }
+                    }
+
+                    if (!intersectsTarget)
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    const entranceDistance = max(depthExtremes.firstEntrance, 0 * meter);
+                    const isCloseEnough = !raycastInputs.hasDepthLimit ||
+                        entranceDistance <= effectiveDepthLimit + TOLERANCE.zeroLength * meter;
+
+                    if (!isCloseEnough)
+                    {
+                        continue;
+                    }
                 }
 
                 targetToTargetLocation = addTargetLocation(targetToTargetLocation, target, knownDirection);

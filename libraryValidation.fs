@@ -5,9 +5,10 @@ FeatureScript ✨; /* Automatically generated version */
 
 export import(path : "onshape/std/context.fs", version : "✨");
 export import(path : "onshape/std/templatestring.fs", version : "✨");
+import(path : "onshape/std/containers.fs", version : "✨");
 
 /**
- * A container for a list of distinct problems found when validating a part studio for use in a library
+ * A container for a list of distinct problems found when validating a tab for use in a library
  */
 export type LibraryValidationProblems typecheck canBeLibraryValidationProblems;
 
@@ -18,10 +19,18 @@ predicate canBeLibraryValidationProblems(value)
         problem is string || problem is TemplateString;
 }
 
+/** If condition is false adds problem (string or map in TemplateString form) to allProblems */
+export function libraryVerify(condition is boolean, allProblems is box, problem) returns boolean
+{
+    if (!condition)
+        allProblems[] = append(allProblems[], problem is string ? problem : templateString(problem));
+    return condition;
+}
+
 /**
-   Library validation is performed by a function that takes a Context
+   Library validation is performed by a function that takes a Context (and optionally a ConfigurationInfo -- see configurationInfo.fs)
    and returns a LibraryValidationProblems. Here is an example, that checks
-   whether the context contains two solid bodies and one surface
+   whether the context contains two solid bodies and one surface.
 
 export function validate(context is Context) returns LibraryValidationProblems
 {

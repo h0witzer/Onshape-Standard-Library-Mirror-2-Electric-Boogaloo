@@ -87,6 +87,7 @@ import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 import(path : "onshape/std/transform.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
+import(path : "onshape/std/string.fs", version : "✨");
 
 /**
  * A `Manipulator` is a type which can be passed into `addManipulators`,
@@ -451,6 +452,37 @@ precondition
 }
 {
     @addManipulators(context, id, manipulators);
+}
+
+/**
+ * @internal
+ *
+ * Editing logic is not allowed to change parameters whose values are supplied by a parameter library.
+ * Reverts any such parameter in `newDefinition` back to its library-supplied value, and reports the
+ * offending parameter ids to the FeatureScript console.
+ *
+ * @param libraryDrivenValues : A map from parameter id to the value supplied by a parameter library. Only
+ *         parameters which the library is actually allowed to drive appear in this map.
+ */
+export function revertLibraryDrivenParameters(context is Context, libraryDrivenValues is map, newDefinition is map) returns map
+{
+    var revertedParameterIds = [];
+    for (var libraryValue in libraryDrivenValues)
+    {
+        if (newDefinition[libraryValue.key] == libraryValue.value)
+        {
+            continue;
+        }
+        newDefinition[libraryValue.key] = libraryValue.value;
+        revertedParameterIds = append(revertedParameterIds, libraryValue.key);
+    }
+    if (revertedParameterIds != [])
+    {
+        println("Editing logic tried to change parameters which are driven by a parameter library. " ~
+                "The following parameters were reverted to their parameter library values: " ~
+                revertedParameterIds);
+    }
+    return newDefinition;
 }
 
 /**

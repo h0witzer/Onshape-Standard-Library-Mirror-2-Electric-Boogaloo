@@ -60,6 +60,14 @@ export function booleanStepEditLogic(context is Context, id is Id, oldDefinition
         logicMap.canDefineOperation = false;
     }
 
+    // If this feature has a path extension flag (e.g. sweep's "Extend to full path"), and the user is
+    // currently toggling it, the operation type should not be re-derived from the resulting geometry
+    if (logicMap.canDefineOperation && (specifiedParameters.extendToFullPath == true) &&
+        definition.extendToFullPath != oldDefinition.extendToFullPath)
+    {
+        logicMap.canDefineOperation = false;
+    }
+
     var newOpDefinition = definition;
     newOpDefinition.operationType = NewBodyOperationType.NEW;
     var heuristicsId = id + "heuristics";

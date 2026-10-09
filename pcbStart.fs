@@ -79,6 +79,9 @@ export const pcbStart = defineSheetMetalFeature(function(context is Context, id 
         }
 
         smGeneralParameters(definition);
+
+        annotation { "Name" : "Default bend K Factor", "UIHint" : UIHint.REMEMBER_PREVIOUS_VALUE }
+        isReal(definition.kFactor, PCB_K_FACTOR_BOUNDS);
     }
     {
         if (definition.process == SMProcessType.EXTRUDE)
@@ -96,7 +99,6 @@ export const pcbStart = defineSheetMetalFeature(function(context is Context, id 
         }
 
         callSubfeatureAndProcessStatusSameParameters(id, sheetMetalStart, context, id + "sheetMetalStart", mergeMaps(definition, {
-            "kFactor" : 0,
             "kFactorRolled": 0,
             "smApplicationType" : SMApplicationType.FLEXIBLE_PCB
         }));
@@ -116,7 +118,8 @@ export const pcbStart = defineSheetMetalFeature(function(context is Context, id 
         "oppositeExtrudeDirection" : false,
         "hasSecondDirection" : false,
         "symmetric" : false,
-        "defaultBendReliefStyle": SMBendStrategyType.TEAR
+        "defaultBendReliefStyle": SMBendStrategyType.TEAR,
+        "kFactor" : 0
     });
 
 /**
