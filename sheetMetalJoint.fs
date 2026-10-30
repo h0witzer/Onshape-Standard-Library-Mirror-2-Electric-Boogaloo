@@ -20,12 +20,12 @@ import(path : "onshape/std/modifyFillet.fs", version : "✨");
 const K_FACTOR_TOLERANCE = TOLERANCE.zeroLength * 100;
 
 /**
- * A `RealBoundSpec` for sheet metal K-factor between -1.5 and 1., defaulting to `.45`. -1.5 is chosen arbitrarily to
+ * A `RealBoundSpec` for sheet metal K-factor between -1000 and 1., defaulting to `.45`. -1000 is chosen arbitrarily to
  * allow for negative k-factors, the actual lower bound is determined by the bend radius and thickness of the sheet metal part.
  */
 export const JOINT_K_FACTOR_BOUNDS =
 {
-    (unitless) : [-1.5, 0.45, 1]
+    (unitless) : [-1000, 0.45, 1]
 } as RealBoundSpec;
 
 /**

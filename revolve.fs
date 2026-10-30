@@ -772,11 +772,15 @@ predicate canBeDimensioningData(value)
 {
     value.startPlane == undefined || value.startPlane is Plane;
     value.endPlane == undefined || value.endPlane is Plane;
-    // Pre-boolean cap face data for dimension positioning (captured before boolean)
+    // Pre-boolean cap face data for dimension positioning (captured before boolean).
+    // Legacy singular fields (pre-V3109_REVOLVE_PER_PROFILE_CAP_DATA); the singular startCap*
+    // is also used to compute the axis origin for the annotation plane regardless of version.
     value.startCapCentroid == undefined || value.startCapCentroid is Vector;
     value.startCapNormal == undefined || value.startCapNormal is Vector;
     value.endCapCentroid == undefined || value.endCapCentroid is Vector;
     value.endCapNormal == undefined || value.endCapNormal is Vector;
+    // Per-profile pre-boolean cap data (V3109_REVOLVE_PER_PROFILE_CAP_DATA). One entry per revolve profile.
+    value.perProfileCapData == undefined || value.perProfileCapData is array;
 }
 
 function getQueriesForStartAndEndCaps(context is Context, id is Id, thin is boolean, axis)
@@ -870,6 +874,62 @@ precondition
             result.endCapCentroid = result.startCapCentroid;
             result.endCapNormal = result.startCapNormal;
         }
+
+        // Per-profile pre-boolean cap capture (V3109_REVOLVE_PER_PROFILE_CAP_DATA). Pairs each profile's start cap face
+        // with its end cap face on the same body so the positioner can look up the correct
+        // centroid/normal per revolve instance instead of borrowing profile 0's data for all
+        // instances (which drops witness lines on the other profiles).
+        if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3109_REVOLVE_PER_PROFILE_CAP_DATA)
+            && !isQueryEmpty(context, startQ))
+        {
+            const startFaces = evaluateQuery(context, startQ);
+            const isMerged180Case = isQueryEmpty(context, endQ);
+            var perProfile = [];
+            for (var i = 0; i < size(startFaces); i += 1)
+            {
+                const startFace = startFaces[i];
+                var endFace = startFace;
+                if (!isMerged180Case)
+                {
+                    const matchingEnd = qIntersection([qOwnedByBody(qOwnerBody(startFace), EntityType.FACE), endQ]);
+                    if (isQueryEmpty(context, matchingEnd))
+                    {
+                        continue;
+                    }
+                    endFace = qNthElement(matchingEnd, 0);
+                }
+                try silent
+                {
+                    const profileStartPlane = evPlane(context, { "face" : startFace });
+                    const profileEndPlane = isMerged180Case ? profileStartPlane : evPlane(context, { "face" : endFace });
+
+                    const startCsys = planeToCSys(profileStartPlane);
+                    const startBox = evBox3d(context, { "topology" : startFace, "cSys" : startCsys });
+                    const startCentroid = toWorld(startCsys, (startBox.minCorner + startBox.maxCorner) / 2);
+                    var endCentroid = startCentroid;
+                    var endNormalVec = profileStartPlane.normal;
+                    if (!isMerged180Case)
+                    {
+                        const endCsys = planeToCSys(profileEndPlane);
+                        const endBox = evBox3d(context, { "topology" : endFace, "cSys" : endCsys });
+                        endCentroid = toWorld(endCsys, (endBox.minCorner + endBox.maxCorner) / 2);
+                        endNormalVec = profileEndPlane.normal;
+                    }
+                    perProfile = append(perProfile, {
+                            "startFace" : startFace,
+                            "endFace" : endFace,
+                            "startCentroid" : startCentroid,
+                            "startNormal" : profileStartPlane.normal,
+                            "endCentroid" : endCentroid,
+                            "endNormal" : endNormalVec
+                        });
+                }
+            }
+            if (size(perProfile) > 0)
+            {
+                result.perProfileCapData = perProfile;
+            }
+        }
     }
     return result;
 }
@@ -952,11 +1012,20 @@ precondition
                     annotationPlaneNormal : axisDirection,
                     isForRevolve : true
                 };
-            // Add pre-boolean cap data for dimension positioning
+            // Pre-boolean cap data for dimension positioning. Always send the singular
+            // startCap*/endCap* fields (needed as a fallback when the pre-boolean cap face
+            // for a profile gets consumed by an ADD/REMOVE boolean and the per-profile query
+            // resolves to zero faces post-boolean). At V3109_REVOLVE_PER_PROFILE_CAP_DATA also send perProfileCapData
+            // as the primary source so multi-profile revolves get correct per-instance data.
             dimensionData.startCapCentroid = dimensioningData.startCapCentroid;
             dimensionData.startCapNormal = dimensioningData.startCapNormal;
             dimensionData.endCapCentroid = dimensioningData.endCapCentroid;
             dimensionData.endCapNormal = dimensioningData.endCapNormal;
+            if (isAtVersionOrLater(context, FeatureScriptVersionNumber.V3109_REVOLVE_PER_PROFILE_CAP_DATA)
+                && dimensioningData.perProfileCapData != undefined)
+            {
+                dimensionData.perProfileCapData = dimensioningData.perProfileCapData;
+            }
             setDimensionedEntities(context, dimensionData);
         }
     }

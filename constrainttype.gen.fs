@@ -8,6 +8,7 @@ FeatureScript ✨; /* Automatically generated version */
 /**
  * Specifies a type of sketch constraint.
  * @seealso [skConstraint]
+ * @value EQUAL_CURVATURE_G3 : Use this option for a `FLOW` constraint type.
  */
 export enum ConstraintType
 {

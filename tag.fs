@@ -6,6 +6,7 @@ FeatureScript ✨; /* Automatically generated version */
 import(path : "onshape/std/attributes.fs", version : "✨");
 import(path : "onshape/std/containers.fs", version : "✨");
 import(path : "onshape/std/coordSystem.fs", version : "✨");
+import(path : "onshape/std/bodyPurposeAttributeUtils.fs", version : "✨");
 import(path : "onshape/std/debug.fs", version : "✨");
 import(path : "onshape/std/defaultFeatures.fs", version : "✨");
 import(path : "onshape/std/error.fs", version : "✨");
@@ -15,6 +16,7 @@ import(path : "onshape/std/featureList.fs", version : "✨");
 import(path : "onshape/std/formedUtils.fs", version : "✨");
 import(path : "onshape/std/frameAttributes.fs", version : "✨");
 import(path : "onshape/std/frameUtils.fs", version : "✨");
+import(path : "onshape/std/partpurpose.gen.fs", version : "✨");
 import(path : "onshape/std/string.fs", version : "✨");
 import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
 
@@ -24,6 +26,8 @@ import(path : "onshape/std/surfaceGeometry.fs", version : "✨");
  * tagged profile.
  * @value FORM : Tag a form with metadata. The metadata will be used for formed features derived from the form.
  * @value PCB_HOLES : Tag holes or cutouts with ECAD metadata. The metadata will be used for importing to PCB Studio.
+ * @value STANDARD_CONTENT : Tag a solid or composite part as standard content. The tagged part can be inserted into
+ * assemblies as standard content from a custom standard content library.
  */
 export enum TagPurpose
 {
@@ -32,7 +36,9 @@ export enum TagPurpose
     annotation { "Name" : "Form" }
     FORM,
     annotation { "Name" : "PCB holes" }
-    PCB_HOLES
+    PCB_HOLES,
+    annotation { "Name" : "Standard content" }
+    STANDARD_CONTENT
 }
 
 /**
@@ -262,7 +268,17 @@ predicate definePcbHolesTagParams(definition is map)
 }
 
 /**
- * Tag an entity with metadata. The metadata will be used for formed and frame features or imported to PCB Studio.
+ * Define Tag feature parameters when the tag purpose is STANDARD_CONTENT.
+ */
+predicate defineStandardContentTagParams(definition is map)
+{
+    annotation { "Name" : "Standard content part", "Filter" : EntityType.BODY && (BodyType.SOLID || BodyType.COMPOSITE), "MaxNumberOfPicks" : 1 }
+    definition.standardContentPart is Query;
+}
+
+/**
+ * Tag an entity with metadata. The metadata will be used for formed and frame features, imported to PCB Studio,
+ * or used to identify a part as standard content.
  */
 
 annotation { "Feature Type Name" : "Tag" }
@@ -284,6 +300,10 @@ export const tag = defineFeature(function(context is Context, id is Id, definiti
         {
             definePcbHolesTagParams(definition);
         }
+        else if (definition.tagPurpose == TagPurpose.STANDARD_CONTENT)
+        {
+            defineStandardContentTagParams(definition);
+        }
     }
     {
         if (definition.tagPurpose == TagPurpose.FRAME)
@@ -297,6 +317,10 @@ export const tag = defineFeature(function(context is Context, id is Id, definiti
         else if (definition.tagPurpose == TagPurpose.PCB_HOLES)
         {
             doTagPcbHoles(context, id, definition);
+        }
+        else if (definition.tagPurpose == TagPurpose.STANDARD_CONTENT)
+        {
+            doTagStandardContent(context, id, definition);
         }
     }, {
             tagPurpose : TagPurpose.FRAME,
@@ -405,6 +429,51 @@ function doTagForm(context is Context, topLevelId is Id, definition is map)
     }
     setFormAttribute(context, qOwnerBody(cSysMateConnector), FORM_BODY_CSYS_MATE_CONNECTOR);
 }
+
+/** @internal */
+const BODY_PURPOSE_ATTRIBUTE_NAME = "bodyPurposeAttribute";
+
+/** @internal */
+const MAX_STANDARD_CONTENT_COMPOSITE_CONSTITUENTS = 50;
+
+function doTagStandardContent(context is Context, topLevelId is Id, definition is map)
+{
+    verify(!isInFeaturePattern(context), ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_NO_FEATURE_PATTERN);
+    const bodiesWithStandardContentAttribute = qBodiesWithBodyPurpose(qEverything(EntityType.BODY), BODY_PURPOSE_ATTRIBUTE_NAME, PartPurpose.STANDARD_CONTENT_PART);
+    if (!isQueryEmpty(context, bodiesWithStandardContentAttribute))
+    {
+        throw regenError(ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_BODIES_ALREADY_TAGGED, bodiesWithStandardContentAttribute);
+    }
+
+    var standardContentPartSelected = !isQueryEmpty(context, definition.standardContentPart);
+    if (standardContentPartSelected)
+    {
+        if (isQueryEmpty(context, qBodyType(definition.standardContentPart, [BodyType.SOLID, BodyType.COMPOSITE])))
+        {
+            throw regenError(ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_PART_NOT_SOLID, ["standardContentPart"], definition.standardContentPart);
+        }
+        else if (!isQueryEmpty(context, qConsumed(definition.standardContentPart, Consumed.YES)))
+        {
+            throw regenError(ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_PART_CONSUMED, ["standardContentPart"], definition.standardContentPart);
+        }
+        else if (!isQueryEmpty(context, qBodyType(definition.standardContentPart, BodyType.COMPOSITE)))
+        {
+            const constituentCount = evaluateQueryCount(context, qContainedInCompositeParts(definition.standardContentPart));
+            if (constituentCount > MAX_STANDARD_CONTENT_COMPOSITE_CONSTITUENTS)
+            {
+                reportFeatureInfo(context, topLevelId, ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_COMPOSITE_PART_TOO_MANY_CONSTITUENTS, ["standardContentPart"]);
+            }
+        }
+    }
+
+    if (!standardContentPartSelected)
+    {
+        throw regenError(ErrorStringEnum.CUSTOM_STANDARD_CONTENT_TAG_SELECT_SOMETHING);
+    }
+
+    setBodyPurposeAttribute(context, definition.standardContentPart, BODY_PURPOSE_ATTRIBUTE_NAME, PartPurpose.STANDARD_CONTENT_PART);
+}
+
 
 function doTagProfile(context is Context, topLevelId is Id, definition is map)
 {
